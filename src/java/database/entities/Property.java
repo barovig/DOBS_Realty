@@ -5,14 +5,14 @@
  */
 package database.entities;
 
+import java.io.Serializable;
 import java.util.Date;
-
+import javax.persistence.*;
 /**
  *
  * @author semargl
  */
-public class Property {
-    
+public class Property implements Serializable {
     private int id;
     private String street;
     private String city;

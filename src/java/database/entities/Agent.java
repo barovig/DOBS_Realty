@@ -5,11 +5,13 @@
  */
 package database.entities;
 
+import java.io.Serializable;
+
 /**
  *   
 * @author semargl
  */
-public class Agent extends User {
+public class Agent extends User implements Serializable {
     
     private int agentId;
     private String name;

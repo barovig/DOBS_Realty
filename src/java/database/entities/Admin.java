@@ -5,10 +5,12 @@
  */
 package database.entities;
 
+import java.io.Serializable;
+
 /**
  *
  * @author semargl
  */
-public class Admin extends User{
+public class Admin extends User implements Serializable {
     
 }

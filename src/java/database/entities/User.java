@@ -9,7 +9,7 @@ package database.entities;
  *
  * @author semargl
  */
-public class User {
+public class User  {
     
     
     
