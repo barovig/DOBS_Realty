@@ -1,0 +1,22 @@
+body{
+    background-color: #ccccff
+}
+
+.main-content{
+    width: 80%;
+}
+
+.content{
+    background-color: #cccccc
+}
+.footer{
+    text-align: center;
+    height: 10em;
+    background-color: #ccffcc
+}
+
+.header{
+    text-align: center;
+    height: 10em;
+    background-color: #ffff99
+}
