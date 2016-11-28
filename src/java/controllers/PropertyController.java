@@ -5,8 +5,12 @@
  */
 package controllers;
 
+import database.entities.Property;
+import database.models.PropertyModel;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,22 +35,26 @@ public class PropertyController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String address;
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PropertyController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PropertyController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
-        }
+        try{
+                List<Property> list = PropertyModel.getAllProperties();
+                
+                if (list.isEmpty()) {
+                    address = "/Error.jsp";
+                } else {
+                    address = "/homepage.jsp";
+                    request.setAttribute("list", list);
+                }
+
+            }//end try
+            catch (Exception ex) {
+                address = "/Error.jsp";
+            }//end catch
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+            dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

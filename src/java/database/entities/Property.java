@@ -6,304 +6,241 @@
 package database.entities;
 
 import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
- * @author semargl
+ * @author K00191419
  */
+@Entity
+@Table(name = "properties")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p"),
+    @NamedQuery(name = "Properties.findById", query = "SELECT p FROM Properties p WHERE p.id = :id"),
+    @NamedQuery(name = "Properties.findByStreet", query = "SELECT p FROM Properties p WHERE p.street = :street"),
+    @NamedQuery(name = "Properties.findByCity", query = "SELECT p FROM Properties p WHERE p.city = :city"),
+    @NamedQuery(name = "Properties.findByListingNum", query = "SELECT p FROM Properties p WHERE p.listingNum = :listingNum"),
+    @NamedQuery(name = "Properties.findByStyleId", query = "SELECT p FROM Properties p WHERE p.styleId = :styleId"),
+    @NamedQuery(name = "Properties.findByTypeId", query = "SELECT p FROM Properties p WHERE p.typeId = :typeId"),
+    @NamedQuery(name = "Properties.findByBedrooms", query = "SELECT p FROM Properties p WHERE p.bedrooms = :bedrooms"),
+    @NamedQuery(name = "Properties.findByBathrooms", query = "SELECT p FROM Properties p WHERE p.bathrooms = :bathrooms"),
+    @NamedQuery(name = "Properties.findBySquarefeet", query = "SELECT p FROM Properties p WHERE p.squarefeet = :squarefeet"),
+    @NamedQuery(name = "Properties.findByLotsize", query = "SELECT p FROM Properties p WHERE p.lotsize = :lotsize"),
+    @NamedQuery(name = "Properties.findByGaragesize", query = "SELECT p FROM Properties p WHERE p.garagesize = :garagesize"),
+    @NamedQuery(name = "Properties.findByGarageId", query = "SELECT p FROM Properties p WHERE p.garageId = :garageId"),
+    @NamedQuery(name = "Properties.findByAgentId", query = "SELECT p FROM Properties p WHERE p.agentId = :agentId"),
+    @NamedQuery(name = "Properties.findByPhoto", query = "SELECT p FROM Properties p WHERE p.photo = :photo"),
+    @NamedQuery(name = "Properties.findByPrice", query = "SELECT p FROM Properties p WHERE p.price = :price")})
 public class Property implements Serializable {
-    private int id;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "street")
     private String street;
+    @Column(name = "city")
     private String city;
-    private int listingNum;
-    private int styleId;
-    private int typeId;
-    private int bedrooms;
-    private double bathrooms;
-    private int squarefeet;
-    private String berRating;
+    @Column(name = "listingNum")
+    private Integer listingNum;
+    @Column(name = "styleId")
+    private Integer styleId;
+    @Column(name = "typeId")
+    private Integer typeId;
+    @Column(name = "bedrooms")
+    private Integer bedrooms;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "bathrooms")
+    private Float bathrooms;
+    @Column(name = "squarefeet")
+    private Integer squarefeet;
+    @Lob
+    @Column(name = "description")
     private String description;
+    @Column(name = "lotsize")
     private String lotsize;
-    private int garagesize;
-    private int garageId;
-    private int agentId;
+    @Column(name = "garagesize")
+    private Short garagesize;
+    @Column(name = "garageId")
+    private Integer garageId;
+    @Column(name = "agentId")
+    private Integer agentId;
+    @Column(name = "photo")
     private String photo;
-    private double price;
-    private Date dateAdded;
+    @Column(name = "price")
+    private Double price;
 
-    public Property(String street, String city, int listingNum, int styleId, int typeId, int bedrooms, double bathrooms, int squarefeet, String berRating, String description, String lotsize, int garagesize, int garageId, int agentId, String photo, double price, Date dateAdded) {
-        this.street = street;
-        this.city = city;
-        this.listingNum = listingNum;
-        this.styleId = styleId;
-        this.typeId = typeId;
-        this.bedrooms = bedrooms;
-        this.bathrooms = bathrooms;
-        this.squarefeet = squarefeet;
-        this.berRating = berRating;
-        this.description = description;
-        this.lotsize = lotsize;
-        this.garagesize = garagesize;
-        this.garageId = garageId;
-        this.agentId = agentId;
-        this.photo = photo;
-        this.price = price;
-        this.dateAdded = dateAdded;
+    public Property() {
     }
 
-    
-    
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
+    public Property(Integer id) {
         this.id = id;
     }
 
-    /**
-     * @return the street
-     */
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getStreet() {
         return street;
     }
 
-    /**
-     * @param street the street to set
-     */
     public void setStreet(String street) {
         this.street = street;
     }
 
-    /**
-     * @return the city
-     */
     public String getCity() {
         return city;
     }
 
-    /**
-     * @param city the city to set
-     */
     public void setCity(String city) {
         this.city = city;
     }
 
-    /**
-     * @return the listingNum
-     */
-    public int getListingNum() {
+    public Integer getListingNum() {
         return listingNum;
     }
 
-    /**
-     * @param listingNum the listingNum to set
-     */
-    public void setListingNum(int listingNum) {
+    public void setListingNum(Integer listingNum) {
         this.listingNum = listingNum;
     }
 
-    /**
-     * @return the styleId
-     */
-    public int getStyleId() {
+    public Integer getStyleId() {
         return styleId;
     }
 
-    /**
-     * @param styleId the styleId to set
-     */
-    public void setStyleId(int styleId) {
+    public void setStyleId(Integer styleId) {
         this.styleId = styleId;
     }
 
-    /**
-     * @return the typeId
-     */
-    public int getTypeId() {
+    public Integer getTypeId() {
         return typeId;
     }
 
-    /**
-     * @param typeId the typeId to set
-     */
-    public void setTypeId(int typeId) {
+    public void setTypeId(Integer typeId) {
         this.typeId = typeId;
     }
 
-    /**
-     * @return the bedrooms
-     */
-    public int getBedrooms() {
+    public Integer getBedrooms() {
         return bedrooms;
     }
 
-    /**
-     * @param bedrooms the bedrooms to set
-     */
-    public void setBedrooms(int bedrooms) {
+    public void setBedrooms(Integer bedrooms) {
         this.bedrooms = bedrooms;
     }
 
-    /**
-     * @return the bathrooms
-     */
-    public double getBathrooms() {
+    public Float getBathrooms() {
         return bathrooms;
     }
 
-    /**
-     * @param bathrooms the bathrooms to set
-     */
-    public void setBathrooms(double bathrooms) {
+    public void setBathrooms(Float bathrooms) {
         this.bathrooms = bathrooms;
     }
 
-    /**
-     * @return the squarefeet
-     */
-    public int getSquarefeet() {
+    public Integer getSquarefeet() {
         return squarefeet;
     }
 
-    /**
-     * @param squarefeet the squarefeet to set
-     */
-    public void setSquarefeet(int squarefeet) {
+    public void setSquarefeet(Integer squarefeet) {
         this.squarefeet = squarefeet;
     }
 
-    /**
-     * @return the berRating
-     */
-    public String getBerRating() {
-        return berRating;
-    }
-
-    /**
-     * @param berRating the berRating to set
-     */
-    public void setBerRating(String berRating) {
-        this.berRating = berRating;
-    }
-
-    /**
-     * @return the description
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * @param description the description to set
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * @return the lotsize
-     */
     public String getLotsize() {
         return lotsize;
     }
 
-    /**
-     * @param lotsize the lotsize to set
-     */
     public void setLotsize(String lotsize) {
         this.lotsize = lotsize;
     }
 
-    /**
-     * @return the garagesize
-     */
-    public int getGaragesize() {
+    public Short getGaragesize() {
         return garagesize;
     }
 
-    /**
-     * @param garagesize the garagesize to set
-     */
-    public void setGaragesize(int garagesize) {
+    public void setGaragesize(Short garagesize) {
         this.garagesize = garagesize;
     }
 
-    /**
-     * @return the garageId
-     */
-    public int getGarageId() {
+    public Integer getGarageId() {
         return garageId;
     }
 
-    /**
-     * @param garageId the garageId to set
-     */
-    public void setGarageId(int garageId) {
+    public void setGarageId(Integer garageId) {
         this.garageId = garageId;
     }
 
-    /**
-     * @return the agentId
-     */
-    public int getAgentId() {
+    public Integer getAgentId() {
         return agentId;
     }
 
-    /**
-     * @param agentId the agentId to set
-     */
-    public void setAgentId(int agentId) {
+    public void setAgentId(Integer agentId) {
         this.agentId = agentId;
     }
 
-    /**
-     * @return the photo
-     */
     public String getPhoto() {
         return photo;
     }
 
-    /**
-     * @param photo the photo to set
-     */
     public void setPhoto(String photo) {
         this.photo = photo;
     }
 
-    /**
-     * @return the price
-     */
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    /**
-     * @param price the price to set
-     */
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    /**
-     * @return the dateAdded
-     */
-    public Date getDateAdded() {
-        return dateAdded;
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
 
-    /**
-     * @param dateAdded the dateAdded to set
-     */
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Property)) {
+            return false;
+        }
+        Property other = (Property) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "database.entities.Properties[ id=" + id + " ]";
     }
     
 }

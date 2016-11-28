@@ -10,7 +10,6 @@
         <div class="main-content">
         <%@ include file="assets/html/header.html" %>
         <div class="content">
-            
         </div>
         <%@ include file="assets/html/footer.html" %>
         </div>

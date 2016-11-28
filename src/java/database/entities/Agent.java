@@ -6,129 +6,149 @@
 package database.entities;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *   
-* @author semargl
+ *
+ * @author K00191419
  */
-public class Agent extends User implements Serializable {
-    
-    private int agentId;
+@Entity
+@Table(name = "agents")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Agent.findAll", query = "SELECT a FROM Agent a"),
+    @NamedQuery(name = "Agent.findByAgentId", query = "SELECT a FROM Agent a WHERE a.agentId = :agentId"),
+    @NamedQuery(name = "Agent.findByName", query = "SELECT a FROM Agent a WHERE a.name = :name"),
+    @NamedQuery(name = "Agent.findByPhone", query = "SELECT a FROM Agent a WHERE a.phone = :phone"),
+    @NamedQuery(name = "Agent.findByFax", query = "SELECT a FROM Agent a WHERE a.fax = :fax"),
+    @NamedQuery(name = "Agent.findByEmail", query = "SELECT a FROM Agent a WHERE a.email = :email"),
+    @NamedQuery(name = "Agent.findByUsername", query = "SELECT a FROM Agent a WHERE a.username = :username")})
+public class Agent implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "agentId")
+    private Integer agentId;
+    @Column(name = "name")
     private String name;
+    @Column(name = "phone")
     private String phone;
+    @Column(name = "fax")
     private String fax;
+    @Column(name = "email")
     private String email;
+    @Basic(optional = false)
+    @Column(name = "username")
     private String username;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "password")
     private String password;
 
-    public Agent(int agentId, String name, String phone, String fax, String email, String username, String password) {
+    public Agent() {
+    }
+
+    public Agent(Integer agentId) {
         this.agentId = agentId;
-        this.name = name;
-        this.phone = phone;
-        this.fax = fax;
-        this.email = email;
+    }
+
+    public Agent(Integer agentId, String username, String password) {
+        this.agentId = agentId;
         this.username = username;
         this.password = password;
     }
 
-    
-    
-    /**
-     * @return the agentId
-     */
-    public int getAgentId() {
+    public Integer getAgentId() {
         return agentId;
     }
 
-    /**
-     * @param agentId the agentId to set
-     */
-    public void setAgentId(int agentId) {
+    public void setAgentId(Integer agentId) {
         this.agentId = agentId;
     }
 
-    /**
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the phone
-     */
     public String getPhone() {
         return phone;
     }
 
-    /**
-     * @param phone the phone to set
-     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    /**
-     * @return the fax
-     */
     public String getFax() {
         return fax;
     }
 
-    /**
-     * @param fax the fax to set
-     */
     public void setFax(String fax) {
         this.fax = fax;
     }
 
-    /**
-     * @return the email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the username
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * @param username the username to set
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * @return the password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * @param password the password to set
-     */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (agentId != null ? agentId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Agent)) {
+            return false;
+        }
+        Agent other = (Agent) object;
+        if ((this.agentId == null && other.agentId != null) || (this.agentId != null && !this.agentId.equals(other.agentId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "database.entities.Agent[ agentId=" + agentId + " ]";
     }
     
 }
