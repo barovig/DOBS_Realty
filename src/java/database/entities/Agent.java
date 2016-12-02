@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author K00191419
+ * @author semargl
  */
 @Entity
 @Table(name = "agents")

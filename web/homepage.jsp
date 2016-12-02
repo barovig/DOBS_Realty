@@ -13,7 +13,7 @@
         <div class="main-content">
         <%@ include file="assets/html/header.html" %>
         <div class="content">
-            <table>
+            <table id="propertyTable">
             <c:forEach var="prop" items="${list}" >
                 <tr>
                     <td>${prop.id}</td>

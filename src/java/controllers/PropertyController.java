@@ -48,7 +48,7 @@ public class PropertyController extends HttpServlet {
                     request.setAttribute("list", list);
                 }
 
-            }//end try
+            }//end try//end try//end try//end try
             catch (Exception ex) {
                 address = "/Error.jsp";
             }//end catch

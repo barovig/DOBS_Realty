@@ -6,6 +6,7 @@
 package database.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,32 +17,36 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author K00191419
+ * @author semargl
  */
 @Entity
 @Table(name = "properties")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p"),
-    @NamedQuery(name = "Properties.findById", query = "SELECT p FROM Properties p WHERE p.id = :id"),
-    @NamedQuery(name = "Properties.findByStreet", query = "SELECT p FROM Properties p WHERE p.street = :street"),
-    @NamedQuery(name = "Properties.findByCity", query = "SELECT p FROM Properties p WHERE p.city = :city"),
-    @NamedQuery(name = "Properties.findByListingNum", query = "SELECT p FROM Properties p WHERE p.listingNum = :listingNum"),
-    @NamedQuery(name = "Properties.findByStyleId", query = "SELECT p FROM Properties p WHERE p.styleId = :styleId"),
-    @NamedQuery(name = "Properties.findByTypeId", query = "SELECT p FROM Properties p WHERE p.typeId = :typeId"),
-    @NamedQuery(name = "Properties.findByBedrooms", query = "SELECT p FROM Properties p WHERE p.bedrooms = :bedrooms"),
-    @NamedQuery(name = "Properties.findByBathrooms", query = "SELECT p FROM Properties p WHERE p.bathrooms = :bathrooms"),
-    @NamedQuery(name = "Properties.findBySquarefeet", query = "SELECT p FROM Properties p WHERE p.squarefeet = :squarefeet"),
-    @NamedQuery(name = "Properties.findByLotsize", query = "SELECT p FROM Properties p WHERE p.lotsize = :lotsize"),
-    @NamedQuery(name = "Properties.findByGaragesize", query = "SELECT p FROM Properties p WHERE p.garagesize = :garagesize"),
-    @NamedQuery(name = "Properties.findByGarageId", query = "SELECT p FROM Properties p WHERE p.garageId = :garageId"),
-    @NamedQuery(name = "Properties.findByAgentId", query = "SELECT p FROM Properties p WHERE p.agentId = :agentId"),
-    @NamedQuery(name = "Properties.findByPhoto", query = "SELECT p FROM Properties p WHERE p.photo = :photo"),
-    @NamedQuery(name = "Properties.findByPrice", query = "SELECT p FROM Properties p WHERE p.price = :price")})
+    @NamedQuery(name = "Property.findAll", query = "SELECT p FROM Property p"),
+    @NamedQuery(name = "Property.findById", query = "SELECT p FROM Property p WHERE p.id = :id"),
+    @NamedQuery(name = "Property.findByStreet", query = "SELECT p FROM Property p WHERE p.street = :street"),
+    @NamedQuery(name = "Property.findByCity", query = "SELECT p FROM Property p WHERE p.city = :city"),
+    @NamedQuery(name = "Property.findByListingNum", query = "SELECT p FROM Property p WHERE p.listingNum = :listingNum"),
+    @NamedQuery(name = "Property.findByStyleId", query = "SELECT p FROM Property p WHERE p.styleId = :styleId"),
+    @NamedQuery(name = "Property.findByTypeId", query = "SELECT p FROM Property p WHERE p.typeId = :typeId"),
+    @NamedQuery(name = "Property.findByBedrooms", query = "SELECT p FROM Property p WHERE p.bedrooms = :bedrooms"),
+    @NamedQuery(name = "Property.findByBathrooms", query = "SELECT p FROM Property p WHERE p.bathrooms = :bathrooms"),
+    @NamedQuery(name = "Property.findBySquarefeet", query = "SELECT p FROM Property p WHERE p.squarefeet = :squarefeet"),
+    @NamedQuery(name = "Property.findByBerRating", query = "SELECT p FROM Property p WHERE p.berRating = :berRating"),
+    @NamedQuery(name = "Property.findByLotsize", query = "SELECT p FROM Property p WHERE p.lotsize = :lotsize"),
+    @NamedQuery(name = "Property.findByGaragesize", query = "SELECT p FROM Property p WHERE p.garagesize = :garagesize"),
+    @NamedQuery(name = "Property.findByGarageId", query = "SELECT p FROM Property p WHERE p.garageId = :garageId"),
+    @NamedQuery(name = "Property.findByAgentId", query = "SELECT p FROM Property p WHERE p.agentId = :agentId"),
+    @NamedQuery(name = "Property.findByPhoto", query = "SELECT p FROM Property p WHERE p.photo = :photo"),
+    @NamedQuery(name = "Property.findByPrice", query = "SELECT p FROM Property p WHERE p.price = :price"),
+    @NamedQuery(name = "Property.findByDateAdded", query = "SELECT p FROM Property p WHERE p.dateAdded = :dateAdded")})
 public class Property implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +72,9 @@ public class Property implements Serializable {
     private Float bathrooms;
     @Column(name = "squarefeet")
     private Integer squarefeet;
+    @Basic(optional = false)
+    @Column(name = "berRating")
+    private String berRating;
     @Lob
     @Column(name = "description")
     private String description;
@@ -82,12 +90,22 @@ public class Property implements Serializable {
     private String photo;
     @Column(name = "price")
     private Double price;
+    @Basic(optional = false)
+    @Column(name = "dateAdded")
+    @Temporal(TemporalType.DATE)
+    private Date dateAdded;
 
     public Property() {
     }
 
     public Property(Integer id) {
         this.id = id;
+    }
+
+    public Property(Integer id, String berRating, Date dateAdded) {
+        this.id = id;
+        this.berRating = berRating;
+        this.dateAdded = dateAdded;
     }
 
     public Integer getId() {
@@ -162,6 +180,14 @@ public class Property implements Serializable {
         this.squarefeet = squarefeet;
     }
 
+    public String getBerRating() {
+        return berRating;
+    }
+
+    public void setBerRating(String berRating) {
+        this.berRating = berRating;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -218,6 +244,14 @@ public class Property implements Serializable {
         this.price = price;
     }
 
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -240,7 +274,7 @@ public class Property implements Serializable {
 
     @Override
     public String toString() {
-        return "database.entities.Properties[ id=" + id + " ]";
+        return "database.entities.Property[ id=" + id + " ]";
     }
     
 }
