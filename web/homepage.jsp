@@ -20,16 +20,16 @@
                     <td>${prop.street}</td>
                     <td>${prop.city}</td>
                     <td>${prop.listingNum}</td>
-                    <td>${prop.styleId}</td>
-                    <td>${prop.typeId}</td>
+                    <!--<td>${prop.styleId}</td>-->
+                    <!--<td>${prop.typeId}</td>-->
                     <td>${prop.bedrooms}</td>
                     <td>${prop.bathrooms}</td>
                     <td>${prop.squarefeet}</td>
-                    <td>${prop.description}</td>
-                    <td>${prop.lotsize}</td>
-                    <td>${prop.garagesize}</td>
-                    <td>${prop.garageId}</td>
-                    <td>${prop.agentId}</td>
+                    <!--<td>${prop.description}</td>-->
+                    <!--<td>${prop.lotsize}</td>-->
+                    <!--<td>${prop.garagesize}</td>-->
+                    <!--<td>${prop.garageId}</td>-->
+                    <!--<td>${prop.agentId}</td>-->
                     
                     <td>${prop.price}</td>
                 </tr>
