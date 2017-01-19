@@ -13,6 +13,25 @@
         <%@ include file="assets/html/header.html" %>
         <div class="main-content">
         <div class="content">
+            <div class="searches">
+                <form action="/PropertyController?action=search" method="post" id="search_form">
+                City:
+                <select name="city" form="search_form">
+                    <option value="any">Any</option>
+                    <c:forEach var="city" items="${cities}">
+                        <option value="${city}" ${city == selectCity ? "selected" : ""}>${city}</option>
+                    </c:forEach>
+                </select>
+                Price:<input type="text" name="min_price" /> -
+                <input type="text" name="max_price" />
+                <input type="submit" value="Search"/>
+                </form>
+            </div>
+            <c:choose>
+            <c:when test="${msg != null}">
+                <h2 class="error_msg">${msg}</h2>
+            </c:when>
+            <c:otherwise>
             <table id="propertyTable">
                 <thead>
                 <tr>
@@ -27,7 +46,9 @@
             <c:forEach var="prop" items="${list}" >
                 <tr>
                     <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a></td>
-                    <td>${prop.price}</td>
+                    <fmt:setLocale value="en_IE" />
+                    <fmt:formatNumber var="price" type="currency" value="${prop.price}" />
+                    <td>${price}</td>
                     <td>${prop.city}</td>
                     <td>${prop.bedrooms}</td>
                     <td>${prop.bathrooms}</td>
@@ -35,6 +56,8 @@
                 </tr>
             </c:forEach>
             </table>
+            </c:otherwise>
+        </c:choose>
         </div>
         <div class="dashboard">
             <ul class="cycle-slideshow vertical" 
@@ -51,7 +74,9 @@
                             <a href="/PropertyController?action=details&id=${prop.id}">
                                 <img src="/assets/img/properties/thumbs/${prop.photo}"/>
                             </a>
-                            <p>${prop.price}</p>
+                            <fmt:setLocale value="en_IE" />
+                            <fmt:formatNumber var="price" type="currency" value="${prop.price}" />
+                            <p>${price}</p>
                             <p>${prop.city}</p>
                         </div>
                     </li>
