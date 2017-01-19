@@ -10,6 +10,7 @@
         <div class="main-content">
         <%@ include file="assets/html/header.html" %>
         <div class="content">
+            <h1>An error has occurred..</h1>
         </div>
         <%@ include file="assets/html/footer.html" %>
         </div>

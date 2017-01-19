@@ -27,4 +27,17 @@ public class PropertyModel {
         return propList;
         
     }
+
+    public static Property getPropertyById(String id) {
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        
+        //create tq and use named query from accounts class
+        TypedQuery<Property> tq = em.createNamedQuery("Property.findById", Property.class);
+        int numId = Integer.parseInt(id);
+        tq.setParameter("id", numId);
+        Property prop = tq.getSingleResult();
+        em.close();
+
+        return prop;   
+    }
 }

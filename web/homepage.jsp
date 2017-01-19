@@ -16,7 +16,7 @@
             <table id="propertyTable">
             <c:forEach var="prop" items="${list}" >
                 <tr>
-                    <td>${prop.id}</td>
+                    <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a></td>
                     <td>${prop.street}</td>
                     <td>${prop.city}</td>
                     <td>${prop.listingNum}</td>
@@ -30,7 +30,7 @@
                     <td>${prop.garagesize}</td>
                     <td>${prop.garageId}</td>
                     <td>${prop.agentId}</td>
-                    <td>${prop.photo}</td>
+                    
                     <td>${prop.price}</td>
                 </tr>
             </c:forEach>

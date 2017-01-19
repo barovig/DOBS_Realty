@@ -10,6 +10,25 @@
         <div class="main-content">
         <%@ include file="assets/html/header.html" %>
         <div class="content">
+        <table id="property_details">
+            <tr>
+                <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a></td>
+                <td>${prop.street}</td>
+                <td>${prop.city}</td>
+                <td>${prop.listingNum}</td>
+                <td>${prop.styleId}</td>
+                <td>${prop.typeId}</td>
+                <td>${prop.bedrooms}</td>
+                <td>${prop.bathrooms}</td>
+                <td>${prop.squarefeet}</td>
+                <td>${prop.description}</td>
+                <td>${prop.lotsize}</td>
+                <td>${prop.garagesize}</td>
+                <td>${prop.garageId}</td>
+                <td>${prop.agentId}</td>
+                <td>${prop.price}</td>
+            </tr>
+        </table>
         </div>
         <%@ include file="assets/html/footer.html" %>
         </div>
