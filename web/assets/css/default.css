@@ -1,5 +1,7 @@
 body{
-    background-color: #ccccff
+    background-color: #ccccff;
+    width: 80%;
+    margin: auto;
 }
 
 ul{
@@ -7,7 +9,7 @@ ul{
 }
 
 .content{
-    background-color: #cccccc
+    background-color: #cccccc;
 }
 .footer{
     text-align: center;
@@ -24,10 +26,26 @@ ul{
 .content{
     float: left;
     width: 80%;
+    margin-right: 4em;
+
 }
 .dashboard{
-    /*margin-left: 10%;*/
+    overflow: auto;
 }
 .main-content{
     overflow: auto;
+    padding: 2em 0 0 0;
+}
+
+/* cycling pager styles */
+
+.cycle-pager{
+    font-size: 2em;
+    color: #a6b3cd;
+    cursor: pointer;
+    padding: 0;
+}
+
+.cycle-pager-active{
+    color: #c05f1d;
 }
