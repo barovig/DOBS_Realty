@@ -4,6 +4,13 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>database.entities.Property</class>
     <class>database.entities.Agent</class>
+    <class>database.entities.Properties</class>
+    <class>database.entities.Garagetypes</class>
+    <class>database.entities.Styles</class>
+    <class>database.entities.Propertytypes</class>
+    <class>database.entities.Style</class>
+    <class>database.entities.Garage</class>
+    <class>database.entities.PropertyType</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/litrealty?zeroDateTimeBehavior=convertToNull"/>

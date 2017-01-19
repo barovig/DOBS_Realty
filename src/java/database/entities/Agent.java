@@ -6,6 +6,7 @@
 package database.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +16,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Agent.findByEmail", query = "SELECT a FROM Agent a WHERE a.email = :email"),
     @NamedQuery(name = "Agent.findByUsername", query = "SELECT a FROM Agent a WHERE a.username = :username")})
 public class Agent implements Serializable {
-
+    @OneToMany(mappedBy = "agentId")
+    private Collection<Property> propertyCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -149,6 +153,15 @@ public class Agent implements Serializable {
     @Override
     public String toString() {
         return "database.entities.Agent[ agentId=" + agentId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Property> getPropertyCollection() {
+        return propertyCollection;
+    }
+
+    public void setPropertyCollection(Collection<Property> propertyCollection) {
+        this.propertyCollection = propertyCollection;
     }
     
 }

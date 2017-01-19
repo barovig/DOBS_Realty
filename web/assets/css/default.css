@@ -2,8 +2,8 @@ body{
     background-color: #ccccff
 }
 
-.main-content{
-    width: 80%;
+ul{
+    list-style-type: none;
 }
 
 .content{
@@ -12,11 +12,22 @@ body{
 .footer{
     text-align: center;
     height: 10em;
-    background-color: #ccffcc
+    background-color: #ccffcc;
+    clear: both;
 }
 
 .header{
     text-align: center;
     height: 10em;
     background-color: #ffff99
+}
+.content{
+    float: left;
+    width: 80%;
+}
+.dashboard{
+    /*margin-left: 10%;*/
+}
+.main-content{
+    overflow: auto;
 }

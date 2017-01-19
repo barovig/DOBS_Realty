@@ -10,18 +10,25 @@
         <title></title>
     </head>
     <body>
-        <div class="main-content">
         <%@ include file="assets/html/header.html" %>
+        <div class="main-content">
         <div class="content">
             <table id="propertyTable">
+                <tr>
+                    <th></th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>
+                </tr>
             <c:forEach var="prop" items="${list}" >
                 <tr>
                     <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a></td>
+                    <td>${prop.price}</td>
                     <td>${prop.street}</td>
                     <td>${prop.city}</td>
-                    <td>${prop.listingNum}</td>
-                    <!--<td>${prop.styleId}</td>-->
-                    <!--<td>${prop.typeId}</td>-->
+<!--                    <td>${prop.listingNum}</td>
+                    <td>${prop.styleId.getPStyle()}</td>
+                    <td>${prop.typeId.getPType()}</td>-->
                     <td>${prop.bedrooms}</td>
                     <td>${prop.bathrooms}</td>
                     <td>${prop.squarefeet}</td>
@@ -31,12 +38,26 @@
                     <!--<td>${prop.garageId}</td>-->
                     <!--<td>${prop.agentId}</td>-->
                     
-                    <td>${prop.price}</td>
                 </tr>
             </c:forEach>
             </table>
         </div>
-        <%@ include file="assets/html/footer.html" %>
+        <div class="dashboard">
+            <ul class="recent">
+                <c:forEach var="prop" items="${lastAdditions}" >
+                    <li>
+                        <div class="prop_recent">
+                            <a href="/PropertyController?action=details&id=${prop.id}">
+                                <img src="/assets/img/properties/thumbs/${prop.photo}"/>
+                            </a>
+                            <p>${prop.price}</p>
+                            <p>${prop.city}</p>
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
         </div>
+        </div>
+        <%@ include file="assets/html/footer.html" %>
     </body>
 </html>
