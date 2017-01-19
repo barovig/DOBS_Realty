@@ -44,7 +44,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Property.findByGaragesize", query = "SELECT p FROM Property p WHERE p.garagesize = :garagesize"),
     @NamedQuery(name = "Property.findByPhoto", query = "SELECT p FROM Property p WHERE p.photo = :photo"),
     @NamedQuery(name = "Property.findByPrice", query = "SELECT p FROM Property p WHERE p.price = :price"),
-    @NamedQuery(name = "Property.findByDateAdded", query = "SELECT p FROM Property p WHERE p.dateAdded = :dateAdded")})
+    @NamedQuery(name = "Property.findByDateAdded", query = "SELECT p FROM Property p WHERE p.dateAdded = :dateAdded"),
+    @NamedQuery(name = "Property.getDistinctCities", query = "SELECT DISTINCT p.city FROM Property p"),
+    @NamedQuery(name = "Property.getByPriceAndCity", query = "SELECT p FROM Property p WHERE p.city LIKE :city AND p.price BETWEEN :min AND :max")})
 public class Property implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

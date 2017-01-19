@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,6 +63,9 @@ public class PropertyController extends HttpServlet {
                 case "home":
                     address = DoDisplayHome(request);
                     break;
+                case "search":
+                    address = DoSearch(request);
+                    break;
             }
         }// end try
         catch (Exception ex) {
@@ -95,15 +100,55 @@ public class PropertyController extends HttpServlet {
            } 
         });
         // get first 7 items
-        List<Property> lastAdditions = propList.subList(0, 6);
-
-        if (propList.isEmpty()) {
+        List<Property> lastAdditions = propList.subList(0, 7);
+        
+        // get cities dynamically
+        List<String> citiesList = PropertyModel.getAllCities();
+        
+        if (propList.isEmpty() || citiesList.isEmpty()) {
             return "/error.jsp";
         } else {
+            Collections.sort(citiesList);
             request.setAttribute("list", propList);
             request.setAttribute("lastAdditions", lastAdditions);
+            request.setAttribute("cities", citiesList);
             return "/homepage.jsp";
         }    
+    }
+    private String DoSearch(HttpServletRequest request) {
+        
+        // get and validate criteria
+        String city = request.getParameter("city");
+        city = ("any".equals(city)) ? "%" : city;        // replace 'any' with wildcard
+        String min_p = request.getParameter("min_price");
+        String max_p = request.getParameter("max_price");
+        Double min = (min_p == null || min_p.isEmpty()) 
+                ? 0d : Double.parseDouble(min_p);
+        Double max = (max_p == null || max_p.isEmpty())
+                ? Double.MAX_VALUE : Double.parseDouble(max_p);
+
+        // get filtered properties
+        List<Property> propList = PropertyModel.getSearchProperties(city, min, max);
+        // don't forget list of cities
+        List<String> citiesList = PropertyModel.getAllCities();
+        
+        if( citiesList.isEmpty()){
+            return "/error.jsp";
+        }
+        else if(propList.isEmpty()){
+            request.setAttribute("msg", "No items found...");
+            request.setAttribute("cities", citiesList);
+            request.setAttribute("selectCity", city);
+            return "/homepage.jsp";            
+
+        }
+        else{
+            request.setAttribute("list", propList);
+            request.setAttribute("cities", citiesList);
+            request.setAttribute("selectCity", city);
+            return "/homepage.jsp";            
+        }
+
     }
 //</editor-fold> 
     

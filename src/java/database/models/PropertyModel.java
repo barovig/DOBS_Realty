@@ -40,4 +40,23 @@ public class PropertyModel {
 
         return prop;   
     }
+    
+    public static List<String> getAllCities(){
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        TypedQuery<String> tq = em.createNamedQuery("Property.getDistinctCities", String.class);
+        List<String> res = tq.getResultList();
+        em.close();
+        return res;
+    }
+    
+    public static List<Property> getSearchProperties(String city, Double min, Double max){
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        TypedQuery<Property> tq = em.createNamedQuery("Property.getByPriceAndCity", Property.class);
+        tq.setParameter("city", city);
+        tq.setParameter("min", min);
+        tq.setParameter("max", max);
+        List<Property> res = tq.getResultList();
+        em.close();
+        return res;
+    }
 }
