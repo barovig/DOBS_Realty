@@ -66,6 +66,9 @@ public class PropertyController extends HttpServlet {
                 case "search":
                     address = DoSearch(request);
                     break;
+                default:
+                    address = DoDisplayHome(request);
+                    break;
             }
         }// end try
         catch (Exception ex) {
