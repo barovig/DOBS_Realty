@@ -1,4 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,6 +12,16 @@
     <body>
         <div class="main-content">
         <%@ include file="assets/html/header.html" %>
+        <div class="user_bar">
+            <ul>
+                <li>${new_fav}</li>
+                <c:forEach var="c" items="${cookie}">
+                    <c:if test="${c.key ne 'JSESSIONID'}">
+                    <li>${c.value.value}</li>
+                    </c:if>
+                </c:forEach>
+            </ul>
+        </div>        
         <div class="content">
         <table id="property_details">
             <tr>

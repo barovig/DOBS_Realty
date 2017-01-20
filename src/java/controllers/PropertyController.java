@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,6 +66,9 @@ public class PropertyController extends HttpServlet {
                     break;
                 case "search":
                     address = DoSearch(request);
+                    break;
+                case "setfav":
+                    address = DoSetFavourite(request, response);
                     break;
                 default:
                     address = DoDisplayHome(request);
@@ -193,4 +197,20 @@ public class PropertyController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private String DoSetFavourite(HttpServletRequest request, HttpServletResponse response) {
+        
+        String id = request.getParameter("id");
+        Cookie[] carr = request.getCookies();
+        for(Cookie ck : carr){
+            if(ck.getValue().contains("property-"+id))
+                return DoDisplayHome(request);
+        }
+        String cname = "favourite"+Math.random();
+        Cookie c = new Cookie(cname, "property-"+id);
+        c.setPath("/");
+        response.addCookie(c);
+        request.setAttribute("new_fav", "property-"+id);
+        return DoDisplayHome(request);
+    }
 }
