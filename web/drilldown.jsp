@@ -66,6 +66,13 @@
                   <td class="tg-e3zv">Garage Size:<br></td>
                   <td class="tg-yw4l">${prop.garagesize}</td>
                 </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <a href="/PropertyController?action=setfav&id=${prop.id}">Add to Favourites</a>
+                    </td>
+                    
+                </tr>
               </table>
         </div>
         <%@ include file="assets/html/footer.html" %>

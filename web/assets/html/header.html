@@ -4,6 +4,7 @@
     </div>
     <div class="header-right">
             <div class="user_bar">
+                
             <ul>
                 <li>${new_fav}</li>
                 <c:forEach var="c" items="${cookie}">
@@ -12,6 +13,10 @@
                     </c:if>
                 </c:forEach>
             </ul>
+            
+        <div class="dropdown">
+            <button class="dropbtn" >Favourites</button>
+        </div>
         </div>
     </div>
 </div>

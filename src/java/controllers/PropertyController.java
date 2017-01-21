@@ -48,6 +48,8 @@ public class PropertyController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        
+        
         try{
             // get action parameter for callback
             String action = request.getParameter("action");
