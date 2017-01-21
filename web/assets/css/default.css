@@ -5,23 +5,39 @@ body{
 }
 
 /* CONTENT /////////////////////////*/
+
 .content{
     float: left;
     width: 80%;
-    margin-right: 4em;
     background-color: #cccccc;
 }
 .main-content{
     overflow: auto;
-    padding: 2em 0 0 0;
+    padding: 0;
 }
+
+/* home */
 
 .dashboard{
     overflow: auto;
+    background: #ffcccc;
+    padding-left: 4em;
 }
 
 ul{
     list-style-type: none;
+}
+
+/* drilldown */
+
+.drilldown{
+    float: left;
+}
+#dd-street{
+    font-size: 20px;
+}
+#dd-ber{
+    text-align: left;
 }
 /*//////////////////////////////////*/
 
@@ -32,6 +48,9 @@ ul{
     background-color: #ccffcc;
     clear: both;
 }
+.footer p{
+    margin: 0;
+}
 /*//////////////////////////////////*/
 
  /*HEADER ////////////////////////*/
@@ -39,6 +58,17 @@ ul{
     text-align: center;
     height: 10em;
     background-color: #ffff99
+}
+.header-left{
+    width: 80%;
+    float: left;
+    height: 10em;
+}
+.header-right{
+    background: #99ff99;
+    height: 10em;
+    overflow: auto;
+
 }
 
 /*//////////////////////////////////*/
@@ -55,9 +85,25 @@ ul{
 .cycle-pager-active{
     color: #c05f1d;
 }
+/*//////////////////////////////////*/
+
+
 
 /* DATATABLES ////////////*/
 
 .dataTables_length {
     float: right !important;
 }
+/*//////////////////////////////////*/
+
+
+/* generated tables ////////////////*/
+
+.dd-table  {border-collapse:collapse;border-spacing:0;border: none;}
+.dd-table td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:none;border-width:1px;overflow:hidden;word-break:normal;}
+.dd-table th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:none;border-width:1px;overflow:hidden;word-break:normal;}
+.dd-table .tg-e3zv{font-weight:bold; text-align: right;}
+.dd-table .tg-yw4l{vertical-align:top}
+.dd-table .tg-9hbo{font-weight:bold;vertical-align:top}
+
+/*//////////////////////////////////*/

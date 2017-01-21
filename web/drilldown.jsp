@@ -11,37 +11,57 @@
     </head>
     <body>
         <div class="main-content">
-        <%@ include file="assets/html/header.html" %>
-        <div class="user_bar">
-            <ul>
-                <li>${new_fav}</li>
-                <c:forEach var="c" items="${cookie}">
-                    <c:if test="${c.key ne 'JSESSIONID'}">
-                    <li>${c.value.value}</li>
-                    </c:if>
-                </c:forEach>
-            </ul>
-        </div>        
+        <%@ include file="assets/html/header.html" %>       
         <div class="content">
-        <table id="property_details">
-            <tr>
-                <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a></td>
-                <td>${prop.street}</td>
-                <td>${prop.city}</td>
-                <td>${prop.listingNum}</td>
-                <td>${prop.styleId.getPStyle()}</td>
-                <td>${prop.typeId.getPType()}</td>
-                <td>${prop.bedrooms}</td>
-                <td>${prop.bathrooms}</td>
-                <td>${prop.squarefeet}</td>
-                <td>${prop.description}</td>
-                <td>${prop.lotsize}</td>
-                <td>${prop.garagesize}</td>
-                <td>${prop.garageId.getGType()}</td>
-                <td>${prop.agentId.getName()}</td>
-                <td>${prop.price}</td>
-            </tr>
-        </table>
+            
+            <div class="drilldown">
+                <div id="drilldown-listnum"><p>Listing number: ${prop.listingNum}</p></div>
+                <a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a>
+                <div id="drilldown-pics">
+                    <a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a>
+                    <a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a>
+                    <a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a>
+                    <a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a>
+                    <a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a>
+                </div>
+            </div>
+            <table class="dd-table">
+                <tr>
+                  <th class="tg-031e" id="dd-street"colspan="4">${prop.street}<br></th>
+                </tr>
+                <tr>
+                  <td class="tg-e3zv">City:<br</td>
+                  <td class="tg-031e">${prop.city}</td>
+                  <td class="tg-e3zv">Price:</td>
+                  <fmt:setLocale value="en_IE" />
+                  <fmt:formatNumber var="price" type="currency" value="${prop.price}" maxFractionDigits="0"/>
+                  <td class="tg-yw4l">${price}</td>
+                </tr>
+                <tr>
+                  <td class="tg-e3zv">Property Style:<br></td>
+                  <td class="tg-031e">${prop.styleId.getPStyle()}</td>
+                  <td class="tg-e3zv">Type:</td>
+                  <td class="tg-yw4l">${prop.typeId.getPType()}</td>
+                </tr>
+                <tr>
+                  <td class="tg-e3zv">Bedrooms:</td>
+                  <td class="tg-yw4l">${prop.bedrooms}</td>
+                  <td class="tg-e3zv">Bathrooms:</td>
+                  <td class="tg-yw4l">${prop.bathrooms}</td>
+                </tr>
+                <tr>
+                  <td class="tg-e3zv">Squarefeet:</td>
+                  <td class="tg-yw4l">${prop.squarefeet}</td>
+                  <td class="tg-e3zv">BER Rating:</td>
+                  <td class="tg-e3zv" id="dd-ber"><img src="/assets/img/BER/${prop.berRating}.png"/><br></td>
+                </tr>
+                <tr>
+                  <td class="tg-e3zv">Garage Type:<br></td>
+                  <td class="tg-yw4l">${prop.garageId.getGType()}</td>
+                  <td class="tg-e3zv">Garage Size:<br></td>
+                  <td class="tg-yw4l">${prop.garagesize}</td>
+                </tr>
+              </table>
         </div>
         <%@ include file="assets/html/footer.html" %>
         </div>

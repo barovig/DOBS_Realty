@@ -157,6 +157,22 @@ public class PropertyController extends HttpServlet {
         }
 
     }
+    
+    private String DoSetFavourite(HttpServletRequest request, HttpServletResponse response) {
+        
+        String id = request.getParameter("id");
+        Cookie[] carr = request.getCookies();
+        for(Cookie ck : carr){
+            if(ck.getValue().contains("property-"+id))
+                return DoDisplayHome(request);
+        }
+        String cname = "favourite"+Math.random();
+        Cookie c = new Cookie(cname, "property-"+id);
+        c.setPath("/");
+        response.addCookie(c);
+        request.setAttribute("new_fav", "property-"+id);
+        return DoDisplayHome(request);
+    }
 //</editor-fold> 
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -198,19 +214,5 @@ public class PropertyController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String DoSetFavourite(HttpServletRequest request, HttpServletResponse response) {
-        
-        String id = request.getParameter("id");
-        Cookie[] carr = request.getCookies();
-        for(Cookie ck : carr){
-            if(ck.getValue().contains("property-"+id))
-                return DoDisplayHome(request);
-        }
-        String cname = "favourite"+Math.random();
-        Cookie c = new Cookie(cname, "property-"+id);
-        c.setPath("/");
-        response.addCookie(c);
-        request.setAttribute("new_fav", "property-"+id);
-        return DoDisplayHome(request);
-    }
+
 }

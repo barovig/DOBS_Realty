@@ -48,7 +48,7 @@
                 <tr>
                     <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a></td>
                     <fmt:setLocale value="en_IE" />
-                    <fmt:formatNumber var="price" type="currency" value="${prop.price}" />
+                    <fmt:formatNumber var="price" type="currency" value="${prop.price}" maxFractionDigits="0" />
                     <td>${price}</td>
                     <td>${prop.city}</td>
                     <td>${prop.bedrooms}</td>
