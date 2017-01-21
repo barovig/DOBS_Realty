@@ -39,6 +39,17 @@ ul{
 #dd-ber{
     text-align: left;
 }
+
+.dd-thumb-pics{
+    width: 60px;
+    height: 42px;
+    cursor: pointer;
+}
+
+#dd-pic-large{
+    width: 480px;
+    height: 320px;
+}
 /*//////////////////////////////////*/
 
 /* FOOTER ////////////////////*/

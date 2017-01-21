@@ -7,6 +7,7 @@ package controllers;
 
 import database.entities.Property;
 import database.models.PropertyModel;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -89,6 +90,20 @@ public class PropertyController extends HttpServlet {
         String id = request.getParameter("id");
         Property property = PropertyModel.getPropertyById(id);
         
+        // process images
+        
+        // get folder name:
+        String photo = property.getPhoto();
+        String imgFolder = photo.substring(0, photo.lastIndexOf("."));
+        // get real path for root context
+        String rPath = request.getServletContext().getRealPath("/");
+        File folder = new File(rPath+"assets/img/properties/large/"+imgFolder+"/");
+        // get filenames
+        File[] imgFiles = folder.listFiles();
+        
+        // set attributes
+        request.setAttribute("img_folder", imgFolder);
+        request.setAttribute("img_files", imgFiles);
         request.setAttribute("prop", property);
         
         return "/drilldown.jsp";
