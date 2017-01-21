@@ -11,16 +11,6 @@
     </head>
     <body>
         <%@ include file="assets/html/header.html" %>
-        <div class="user_bar">
-            <ul>
-                <li>${new_fav}</li>
-                <c:forEach var="c" items="${cookie}">
-                    <c:if test="${c.key ne 'JSESSIONID'}">
-                    <li>${c.value.value}</li>
-                    </c:if>
-                </c:forEach>
-            </ul>
-        </div>
         <div class="main-content">
         <div class="content">
             <div class="searches">

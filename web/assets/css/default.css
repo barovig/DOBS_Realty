@@ -4,40 +4,46 @@ body{
     margin: auto;
 }
 
-ul{
-    list-style-type: none;
-}
-
-.content{
-    background-color: #cccccc;
-}
-.footer{
-    text-align: center;
-    height: 10em;
-    background-color: #ccffcc;
-    clear: both;
-}
-
-.header{
-    text-align: center;
-    height: 10em;
-    background-color: #ffff99
-}
+/* CONTENT /////////////////////////*/
 .content{
     float: left;
     width: 80%;
     margin-right: 4em;
-
-}
-.dashboard{
-    overflow: auto;
+    background-color: #cccccc;
 }
 .main-content{
     overflow: auto;
     padding: 2em 0 0 0;
 }
 
-/* cycling pager styles */
+.dashboard{
+    overflow: auto;
+}
+
+ul{
+    list-style-type: none;
+}
+/*//////////////////////////////////*/
+
+/* FOOTER ////////////////////*/
+.footer{
+    text-align: center;
+    height: 10em;
+    background-color: #ccffcc;
+    clear: both;
+}
+/*//////////////////////////////////*/
+
+ /*HEADER ////////////////////////*/
+.header{
+    text-align: center;
+    height: 10em;
+    background-color: #ffff99
+}
+
+/*//////////////////////////////////*/
+
+/* cycling pager styles ////////////*/
 
 .cycle-pager{
     font-size: 2em;
@@ -48,4 +54,10 @@ ul{
 
 .cycle-pager-active{
     color: #c05f1d;
+}
+
+/* DATATABLES ////////////*/
+
+.dataTables_length {
+    float: right !important;
 }

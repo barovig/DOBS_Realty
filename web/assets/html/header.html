@@ -1,3 +1,17 @@
 <div class="header">
-    <p>This is header</p>
+    <div class="header-left">
+        <p>This is header</p>
+    </div>
+    <div class="header-right">
+            <div class="user_bar">
+            <ul>
+                <li>${new_fav}</li>
+                <c:forEach var="c" items="${cookie}">
+                    <c:if test="${c.key ne 'JSESSIONID'}">
+                    <li>${c.value.value}</li>
+                    </c:if>
+                </c:forEach>
+            </ul>
+        </div>
+    </div>
 </div>
