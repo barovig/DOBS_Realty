@@ -3,20 +3,25 @@
         <p>This is header</p>
     </div>
     <div class="header-right">
-            <div class="user_bar">
-                
-            <ul>
-                <li>${new_fav}</li>
-                <c:forEach var="c" items="${cookie}">
-                    <c:if test="${c.key ne 'JSESSIONID'}">
-                    <li>${c.value.value}</li>
-                    </c:if>
+            <div class="user_bar"> 
+            <div class="dropdown">
+                <button class="dropbtn" >Favourites ${favs.size()}</button>
+                    <c:forEach var="f" items="${favs}">
+                        <div class="fav-item">
+                            <img class="fav-img" src="/assets/img/properties/thumbs/${f.photo}" />
+                            <table class="fav-tbl">
+                                <tr><td>${f.street}</td></tr>
+                                <tr><td>${f.city}</td></tr>
+                                <tr>
+                                    <td><fmt:formatNumber var="price" type="currency" value="${prop.price}" maxFractionDigits="0" /></td>
+                                </tr>
+                            </table>
+                            <div class="fav-del-btn">
+                                <a href="/PropertyController?action=delfav&id=${f.id}">Remove</a>
+                            </div>
+                        </div>
                 </c:forEach>
-            </ul>
-            
-        <div class="dropdown">
-            <button class="dropbtn" >Favourites</button>
-        </div>
+            </div>
         </div>
     </div>
 </div>

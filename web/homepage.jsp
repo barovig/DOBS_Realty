@@ -41,7 +41,6 @@
                     <th>Bedrooms</th>
                     <th>Bathrooms</th>
                     <th>Square feet</th>
-                    <th></th>
                 </tr>
                 </thead>
             <c:forEach var="prop" items="${list}" >
@@ -54,9 +53,6 @@
                     <td>${prop.bedrooms}</td>
                     <td>${prop.bathrooms}</td>
                     <td>${prop.squarefeet}</td>
-                    <td>
-                        <a href="/PropertyController?action=setfav&id=${prop.id}">Favourite</a>
-                    </td>
                 </tr>
             </c:forEach>
             </table>

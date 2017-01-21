@@ -10,6 +10,7 @@ import database.models.PropertyModel;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -49,8 +50,10 @@ public class PropertyController extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         
-        
         try{
+            // get current favourites list
+            ArrayList<Property> favs = GetAllFavourites(request);
+
             // get action parameter for callback
             String action = request.getParameter("action");
             
@@ -71,12 +74,14 @@ public class PropertyController extends HttpServlet {
                     address = DoSearch(request);
                     break;
                 case "setfav":
-                    address = DoSetFavourite(request, response);
+                    address = DoSetFavourite(request, response, favs);
                     break;
                 default:
                     address = DoDisplayHome(request);
                     break;
             }
+            // finally, add favourites
+            request.setAttribute("favs", favs);
         }// end try
         catch (Exception ex) {
             address = "/error.jsp";
@@ -175,20 +180,25 @@ public class PropertyController extends HttpServlet {
 
     }
     
-    private String DoSetFavourite(HttpServletRequest request, HttpServletResponse response) {
-        
+    private String DoSetFavourite(HttpServletRequest request, HttpServletResponse response, 
+                                ArrayList<Property> favs) 
+    {
         String id = request.getParameter("id");
-        Cookie[] carr = request.getCookies();
-        for(Cookie ck : carr){
-            if(ck.getValue().contains("property-"+id))
-                return DoDisplayHome(request);
+        // .find(Predicate<>) would be useful...
+        boolean newFav = true;
+        for(Property p : favs){
+            if(p.getId().toString().equals(id)){
+                newFav = false; break;
+            }
         }
-        String cname = "favourite"+Math.random();
-        Cookie c = new Cookie(cname, "property-"+id);
-        c.setPath("/");
-        response.addCookie(c);
-        request.setAttribute("new_fav", "property-"+id);
-        return DoDisplayHome(request);
+        if(newFav){
+            String cname = "favourite"+Math.random();
+            Cookie c = new Cookie(cname, id);
+            c.setPath("/");
+            response.addCookie(c);
+            favs.add(PropertyModel.getPropertyById(id));
+        }
+        return DoDrilldown(request);
     }
 //</editor-fold> 
     
@@ -230,6 +240,17 @@ public class PropertyController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private ArrayList<Property> GetAllFavourites(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        ArrayList<Property> favs = new ArrayList<>();
+        for(Cookie ck : cookies){
+            if(ck.getName().contains("favourite")){
+                favs.add(PropertyModel.getPropertyById(ck.getValue()));
+            }  
+        }
+        return favs;
+    }
 
 
 }
