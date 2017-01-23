@@ -6,6 +6,7 @@
             <div class="user_bar"> 
             <div class="dropdown">
                 <button class="dropbtn" >Favourites ${favs.size()}</button>
+                <div class="dropdown-content">
                     <c:forEach var="f" items="${favs}">
                         <div class="fav-item">
                             <img class="fav-img" src="/assets/img/properties/thumbs/${f.photo}" />
@@ -20,7 +21,8 @@
                                 <a href="/PropertyController?action=delfav&id=${f.id}">Remove</a>
                             </div>
                         </div>
-                </c:forEach>
+                    </c:forEach>
+                </div>
             </div>
         </div>
     </div>
