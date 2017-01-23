@@ -95,6 +95,7 @@ ul{
 .dropdown {
     position: relative;
     display: inline-block;
+    margin-top: 6em;
 }
 
 .dropdown-content {
@@ -103,13 +104,30 @@ ul{
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
+    z-index: 10;
 
+}
+.fav-item{
+    background-color: #ccccff;
+}
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+.fav-item img{
+    width: 48px;
+    height: 32px;
+}
 
+.fav-item table{
+    font-size: 10px;
+    width: 100%;
+}
+
+.fav-del-btn{
+    display: block;
+    float: right;
+}
 /*//////////////////////////////////*/
 
 /* cycling pager styles ////////////*/

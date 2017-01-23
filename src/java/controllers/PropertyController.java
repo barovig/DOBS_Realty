@@ -80,8 +80,13 @@ public class PropertyController extends HttpServlet {
                     address = DoDisplayHome(request);
                     break;
             }
-            // finally, add favourites
+            // Favourites setup:
+            // get request's query str
+            String qry = request.getQueryString();
+            // add favourites and qry string
             request.setAttribute("favs", favs);
+            if(qry != null)
+                request.setAttribute("fav_del_url", qry);
         }// end try
         catch (Exception ex) {
             address = "/error.jsp";

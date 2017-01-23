@@ -1,6 +1,6 @@
 <div class="header">
     <div class="header-left">
-        <p>This is header</p>
+        <p><a href="/PropertyController" >This is header</a></p>
     </div>
     <div class="header-right">
             <div class="user_bar"> 
@@ -9,17 +9,26 @@
                 <div class="dropdown-content">
                     <c:forEach var="f" items="${favs}">
                         <div class="fav-item">
-                            <img class="fav-img" src="/assets/img/properties/thumbs/${f.photo}" />
                             <table class="fav-tbl">
-                                <tr><td>${f.street}</td></tr>
-                                <tr><td>${f.city}</td></tr>
                                 <tr>
-                                    <td><fmt:formatNumber var="price" type="currency" value="${prop.price}" maxFractionDigits="0" /></td>
+                                    <td rowspan="2">
+                                        <a href="/PropertyController?action=details&id=${f.id}">
+                                        <img class="fav-img" src="/assets/img/properties/thumbs/${f.photo}" />
+                                        </a>
+                                    </td>
+                                    <td>${f.city}</td>
+                                    <td rowspan="2">
+                                        <a href="/PropertyController?${fav_del_url}&delfav=${f.id}" class="fav-del-btn">
+                                            Remove
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><fmt:formatNumber var="price" type="currency" value="${f.price}" maxFractionDigits="0" />
+                                        ${price}
+                                    </td>
                                 </tr>
                             </table>
-                            <div class="fav-del-btn">
-                                <a href="/PropertyController?action=delfav&id=${f.id}">Remove</a>
-                            </div>
                         </div>
                     </c:forEach>
                 </div>
