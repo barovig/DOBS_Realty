@@ -110,6 +110,8 @@ public class PropertyController extends HttpServlet {
         // get filenames
         File[] imgFiles = folder.listFiles();
         
+        // TODO: get Agent 
+        
         // set attributes
         request.setAttribute("img_folder", imgFolder);
         request.setAttribute("img_files", imgFiles);
@@ -203,6 +205,16 @@ public class PropertyController extends HttpServlet {
         }
         return DoDrilldown(request);
     }
+    private ArrayList<Property> GetAllFavourites(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        ArrayList<Property> favs = new ArrayList<>();
+        for(Cookie ck : cookies){
+            if(ck.getName().contains("favourite")){
+                favs.add(PropertyModel.getPropertyById(ck.getValue()));
+            }  
+        }
+        return favs;
+    }
 //</editor-fold> 
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -243,17 +255,4 @@ public class PropertyController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private ArrayList<Property> GetAllFavourites(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        ArrayList<Property> favs = new ArrayList<>();
-        for(Cookie ck : cookies){
-            if(ck.getName().contains("favourite")){
-                favs.add(PropertyModel.getPropertyById(ck.getValue()));
-            }  
-        }
-        return favs;
-    }
-
-
 }

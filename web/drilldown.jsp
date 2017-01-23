@@ -12,8 +12,7 @@
     <body>
         <div class="main-content">
         <%@ include file="assets/html/header.html" %>       
-        <div class="content">
-            
+        <div class="content"> 
             <div class="drilldown">
                 <div id="drilldown-listnum"><p>Listing number: ${prop.listingNum}</p></div>
                 <img id="dd-pic-large" src="/assets/img/properties/large/${img_folder}/${img_files[0].getName()}"/>
@@ -74,6 +73,9 @@
                     
                 </tr>
               </table>
+        </div>
+        <div class="dashboard">
+            
         </div>
         <%@ include file="assets/html/footer.html" %>
         </div>
