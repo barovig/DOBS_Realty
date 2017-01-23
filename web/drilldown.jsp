@@ -75,7 +75,7 @@
               </table>
         </div>
         <div class="dashboard">
-            
+            <%@include file="assets/html/agent.html" %>
         </div>
         <%@ include file="assets/html/footer.html" %>
         </div>

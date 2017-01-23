@@ -115,6 +115,7 @@ public class PropertyController extends HttpServlet {
         // set attributes
         request.setAttribute("img_folder", imgFolder);
         request.setAttribute("img_files", imgFiles);
+        request.setAttribute("agent", property.getAgentId());
         request.setAttribute("prop", property);
         
         return "/drilldown.jsp";
