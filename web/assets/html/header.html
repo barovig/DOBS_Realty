@@ -5,10 +5,10 @@
     <div class="header-right">
             <div class="user_bar"> 
             <div class="dropdown">
-                <button class="dropbtn" >Favourites ${favs.size()}</button>
+                <button class="dropbtn" >Favourites <span id="fav-count">${favs.size()}</span></button>
                 <div class="dropdown-content">
                     <c:forEach var="f" items="${favs}">
-                        <div class="fav-item">
+                        <div class="fav-item" id="fav-item-${f.id}">
                             <table class="fav-tbl">
                                 <tr>
                                     <td rowspan="2">
@@ -18,9 +18,9 @@
                                     </td>
                                     <td>${f.city}</td>
                                     <td rowspan="2">
-                                        <a href="/PropertyController?${fav_del_url}&delfav=${f.id}" class="fav-del-btn">
-                                            Remove
-                                        </a>
+                                        <button class="fav-del-btn" onclick="removeFavourite(${f.id})">
+                                            X
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>

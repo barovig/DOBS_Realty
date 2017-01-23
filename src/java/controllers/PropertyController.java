@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -80,13 +81,9 @@ public class PropertyController extends HttpServlet {
                     address = DoDisplayHome(request);
                     break;
             }
-            // Favourites setup:
-            // get request's query str
-            String qry = request.getQueryString();
-            // add favourites and qry string
+           
             request.setAttribute("favs", favs);
-            if(qry != null)
-                request.setAttribute("fav_del_url", qry);
+            
         }// end try
         catch (Exception ex) {
             address = "/error.jsp";
@@ -197,7 +194,8 @@ public class PropertyController extends HttpServlet {
             }
         }
         if(newFav){
-            String cname = "favourite"+Math.random();
+            Random r = new Random();
+            String cname = "favourite"+(r.nextInt());
             Cookie c = new Cookie(cname, id);
             c.setPath("/");
             response.addCookie(c);
