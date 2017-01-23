@@ -21,7 +21,11 @@ body{
 .dashboard{
     overflow: auto;
     background: #ffcccc;
-    padding-left: 4em;
+    /*padding-left: 4em;*/
+}
+
+.slideshow{
+    margin-left: 4em;
 }
 
 ul{

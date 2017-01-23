@@ -60,6 +60,8 @@
         </c:choose>
         </div>
         <div class="dashboard">
+            <h4 style="margin-left:4em;">Recent additions:</h4>
+            <div class="slideshow">
             <ul class="cycle-slideshow vertical" 
                         data-cycle-fx="carousel" 
                         data-cycle-timeout="2000"
@@ -83,6 +85,7 @@
                 </c:forEach>
             </ul>
             <div class="cycle-pager" id=pager></div>
+            </div>
         </div>
         </div>
         <%@ include file="assets/html/footer.html" %>

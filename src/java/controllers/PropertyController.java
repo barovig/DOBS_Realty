@@ -99,8 +99,7 @@ public class PropertyController extends HttpServlet {
         String id = request.getParameter("id");
         Property property = PropertyModel.getPropertyById(id);
         
-        // process images
-        
+        // Process images:
         // get folder name:
         String photo = property.getPhoto();
         String imgFolder = photo.substring(0, photo.lastIndexOf("."));
@@ -109,9 +108,7 @@ public class PropertyController extends HttpServlet {
         File folder = new File(rPath+"assets/img/properties/large/"+imgFolder+"/");
         // get filenames
         File[] imgFiles = folder.listFiles();
-        
-        // TODO: get Agent 
-        
+                
         // set attributes
         request.setAttribute("img_folder", imgFolder);
         request.setAttribute("img_files", imgFiles);
@@ -197,6 +194,7 @@ public class PropertyController extends HttpServlet {
             }
         }
         if(newFav){
+            // prepend random int to cookie name
             Random r = new Random();
             String cname = "favourite"+(r.nextInt());
             Cookie c = new Cookie(cname, id);
@@ -206,6 +204,7 @@ public class PropertyController extends HttpServlet {
         }
         return DoDrilldown(request);
     }
+    
     private ArrayList<Property> GetAllFavourites(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         ArrayList<Property> favs = new ArrayList<>();
