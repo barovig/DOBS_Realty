@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -57,7 +58,7 @@
                   <td class="tg-e3zv">Squarefeet:</td>
                   <td class="tg-yw4l">${prop.squarefeet}</td>
                   <td class="tg-e3zv">BER Rating:</td>
-                  <td class="tg-e3zv" id="dd-ber"><img src="/assets/img/BER/${prop.berRating}.png"/><br></td>
+                  <td class="tg-e3zv" id="dd-ber"><img src="${context}/assets/img/BER/${prop.berRating}.png"/><br></td>
                 </tr>
                 <tr>
                   <td class="tg-e3zv">Garage Type:<br></td>
@@ -68,7 +69,7 @@
                 <tr>
                     <td colspan="2"></td>
                     <td colspan="2">
-                        <a href="/PropertyController?action=setfav&id=${prop.id}">Add to Favourites</a>
+                        <a href="${context}/PropertyController?action=setfav&id=${prop.id}">Add to Favourites</a>
                     </td>
                     
                 </tr>

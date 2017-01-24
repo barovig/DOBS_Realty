@@ -1,6 +1,6 @@
 <div class="header">
     <div class="header-left">
-        <p><a href="/PropertyController" >This is header</a></p>
+        <p><a href="${context}/PropertyController" >This is header</a></p>
     </div>
     <div class="header-right">
             <div class="user_bar"> 
@@ -12,8 +12,8 @@
                             <table class="fav-tbl">
                                 <tr>
                                     <td rowspan="2">
-                                        <a href="/PropertyController?action=details&id=${f.id}">
-                                        <img class="fav-img" src="/assets/img/properties/thumbs/${f.photo}" />
+                                        <a href="${context}/PropertyController?action=details&id=${f.id}">
+                                        <img class="fav-img" src="${context}/assets/img/properties/thumbs/${f.photo}" />
                                         </a>
                                     </td>
                                     <td>${f.city}</td>

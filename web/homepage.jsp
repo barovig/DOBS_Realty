@@ -15,7 +15,7 @@
         <div class="main-content">
         <div class="content">
             <div class="searches">
-                <form action="/PropertyController?action=search" method="post" id="search_form">
+                <form action="${context}/PropertyController?action=search" method="post" id="search_form">
                 City:
                 <select name="city" form="search_form">
                     <option value="any">Any</option>
@@ -46,7 +46,7 @@
                 </thead>
             <c:forEach var="prop" items="${list}" >
                 <tr>
-                    <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="${context}/assets/img/properties/thumbs/${prop.photo}"/></a></td>
+                    <td><a href="${context}/PropertyController?action=details&id=${prop.id}"><img src="${context}/assets/img/properties/thumbs/${prop.photo}"/></a></td>
                     <fmt:setLocale value="en_IE" />
                     <fmt:formatNumber var="price" type="currency" value="${prop.price}" maxFractionDigits="0" />
                     <td>${price}</td>
@@ -74,7 +74,7 @@
                 <c:forEach var="prop" items="${lastAdditions}" >
                     <li>
                         <div class="prop_recent">
-                            <a href="/PropertyController?action=details&id=${prop.id}">
+                            <a href="${context}/PropertyController?action=details&id=${prop.id}">
                                 <img src="${context}/assets/img/properties/thumbs/${prop.photo}"/>
                             </a>
                             <fmt:setLocale value="en_IE" />
