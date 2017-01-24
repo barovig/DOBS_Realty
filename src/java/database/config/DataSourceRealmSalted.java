@@ -1,10 +1,10 @@
+package database.config;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.config;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,15 +28,13 @@ public class DataSourceRealmSalted extends DataSourceRealm{
         
         try{
             // get salt for that user
-            PreparedStatement ps = dbConnection.prepareStatement("SELECT ? from ? WHERE ? = ?");
-            ps.setString(1, saltColumnName);
-            ps.setString(2, saltTableName);
-            ps.setString(3, userNameCol);
-            ps.setString(4, username);
+            PreparedStatement ps = dbConnection.prepareStatement("SELECT salt FROM salts WHERE username = ?");
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
+            //String res = rs.toString();
             String salt = rs.getString("salt");
             // update password
-            credentials=salt+credentials;
+            //credentials=salt+credentials;
             
         }catch(SQLException se){
             // database error: don't authenticate (return null)

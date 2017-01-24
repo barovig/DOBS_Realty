@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/DOBS_Realty">
-  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" 
+    <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" 
             maxWait="-1" name="jdbc/litrealty" password="pass" type="javax.sql.DataSource" 
             url="jdbc:mysql://localhost:3306/litrealty" username="root"/>
-  <ResourceLink global="java:/comp/env/jdbc/litrealty" name="java:/comp/env/jdbc/litrealty" type="javax.sql.DataSource"/>
+    <ResourceLink global="java:/comp/env/jdbc/litrealty" name="java:/comp/env/jdbc/litrealty" type="javax.sql.DataSource"/>
+    
+    <Realm  className="database.config.DataSourceRealmSalted" 
+         dataSourceName="jdbc/litrealty" localDataSource="true" 
+         roleNameCol="role" userCredCol="password" 
+         userNameCol="username" userRoleTable="roles" 
+         userTable="agents"/>
 </Context>
