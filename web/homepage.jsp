@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -45,7 +46,7 @@
                 </thead>
             <c:forEach var="prop" items="${list}" >
                 <tr>
-                    <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="/assets/img/properties/thumbs/${prop.photo}"/></a></td>
+                    <td><a href="/PropertyController?action=details&id=${prop.id}"><img src="${context}/assets/img/properties/thumbs/${prop.photo}"/></a></td>
                     <fmt:setLocale value="en_IE" />
                     <fmt:formatNumber var="price" type="currency" value="${prop.price}" maxFractionDigits="0" />
                     <td>${price}</td>
@@ -74,7 +75,7 @@
                     <li>
                         <div class="prop_recent">
                             <a href="/PropertyController?action=details&id=${prop.id}">
-                                <img src="/assets/img/properties/thumbs/${prop.photo}"/>
+                                <img src="${context}/assets/img/properties/thumbs/${prop.photo}"/>
                             </a>
                             <fmt:setLocale value="en_IE" />
                             <fmt:formatNumber var="price" type="currency" value="${prop.price}" />

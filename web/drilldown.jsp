@@ -15,14 +15,14 @@
         <div class="content"> 
             <div class="drilldown">
                 <div id="drilldown-listnum"><p>Listing number: ${prop.listingNum}</p></div>
-                <img id="dd-pic-large" src="/assets/img/properties/large/${img_folder}/${img_files[0].getName()}"/>
+                <img id="dd-pic-large" src="${context}/assets/img/properties/large/${img_folder}/${img_files[0].getName()}"/>
                 <div id="drilldown-pics">
                     <c:set value="0" var="i" scope="page" />
                     <c:forEach var="img" items="${img_files}">
                         <img 
                             id="dd-pic-${i}" 
                             class="dd-thumb-pics" 
-                            src="/assets/img/properties/large/${img_folder}/${img.getName()}"
+                            src="${context}/assets/img/properties/large/${img_folder}/${img.getName()}"
                             onclick="ddSetLargePic(${i});"
                              />
                         <c:set value="${i + 1}" var="i" scope="page" />
