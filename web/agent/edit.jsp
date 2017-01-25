@@ -14,7 +14,8 @@
         <div class="main-content">
         <%@ include file="../assets/jsp/header.jsp" %>
         <div class="content">
-            <form action="${context}/AgentController?action=edit" method="post" id="edit_form">
+            <form action="${context}/AgentController?action=edit" method="post" id="edit_form" 
+				  enctype="multipart/form-data" multiple="true">
                 <table>
                     <tr>
                         <td>Listing Number:</td>
@@ -106,7 +107,11 @@
 						</td>
 					</tr>
 					<tr>
-                        <td><a href="" id="upld-btn">Upload more images..</a></td>
+						<td>
+								<input type="text" name="description" value="Upload more (jpeg) photos:"/>
+								<input type="file" name="file" accept=".jpg,.JPG,image/jpeg" />
+							</form>
+						</td>
                         <td><input type="submit" value="Update" />
                     </tr>
                 </table>

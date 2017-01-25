@@ -12,25 +12,39 @@ import database.entities.PropertyType;
 import database.entities.Style;
 import database.models.AgentModel;
 import database.models.PropertyModel;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.Part;
+import util.ImageUtil;
 /**
  *
  * @author K00191419
  */
 @WebServlet(name = "AgentController", urlPatterns = {"/AgentController"})
+@MultipartConfig
 public class AgentController extends HttpServlet {
 
     /**
@@ -126,8 +140,31 @@ public class AgentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+		processUpload(request);
         processRequest(request, response);
     }
+
+	private void processUpload(HttpServletRequest request) throws ServletException, IOException {
+		// get description param (multipart form)
+		String description = request.getParameter("description");
+		if(description != null){
+			// get file Part list from getParts() collection
+			Collection<Part> partCollection = request.getParts();
+			List<Part> parts = new ArrayList<>();
+			for(Part p : partCollection){
+				if(p.getName().equals("file")){
+					parts.add(p);
+				}
+			}
+			
+			for (Part filePart : parts) {
+				String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+				InputStream fileContent = filePart.getInputStream();
+				ProcessFileUpload(fileContent, 
+						request.getServletContext().getRealPath("/"));
+			}		
+		}
+	}
 
     /**
      * Returns a short description of the servlet.
@@ -176,7 +213,7 @@ public class AgentController extends HttpServlet {
     }
 
 	private String DoDelete(HttpServletRequest request, Agent agent) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	private String DoManage(HttpServletRequest request, Agent agent) {	
@@ -217,7 +254,8 @@ public class AgentController extends HttpServlet {
 		}
 	}
 
-	private String DoEdit(HttpServletRequest request, Agent agent) {
+	private String DoEdit(HttpServletRequest request, Agent agent)
+			throws IOException{
 		
 		// NOTE: Data validated by filter.
 		// find property that is being edited
@@ -231,7 +269,13 @@ public class AgentController extends HttpServlet {
 		
 		if(property == null)
 			return "error.jsp";
-		
+		// handle image deletion
+		String[] delImgs = request.getParameterValues("delImgs");
+		if(delImgs != null){
+			handleImageArchiving(delImgs, 
+					property.getListingNum().toString(),
+					request.getServletContext().getRealPath("/"));
+		}
 		// Parse data.
 Enumeration<String> params = request.getParameterNames();
 Map<String, String[]> vals = request.getParameterMap();
@@ -257,5 +301,43 @@ Map<String, String[]> vals = request.getParameterMap();
 		PropertyModel.updateProperty(property);
 		
 		return "AgentController?action=manage&id="+property.getId();
+	}
+
+	private void handleImageArchiving(String[] delImgs, String imgDir, String rPath)
+			throws IOException{
+		// get image data
+        File folder = new File(rPath+"assets/img/properties/large/"+imgDir+"/");
+		Path archive = Paths.get(rPath+"archive/"+imgDir);
+		
+		// check and create directories if they don't exist
+		if(!Files.exists(archive))
+			Files.createDirectories(archive);
+		
+		// move files to archive
+		for(String file : delImgs){
+			Path src = Paths.get(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
+			Path dest = Paths.get(archive+"/"+file);
+//			File img = new File(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
+			Files.move(src, dest, REPLACE_EXISTING);
+		}
+		
+	}
+
+	private void ProcessFileUpload(InputStream fileContent, String realPath) 
+			throws IOException {
+		System.out.println("Uploaded file.");
+		// img configuration params
+		int largeWidth = 480;
+		int largeHeight = 320;
+		int thumbWidth = 75;
+		int thumbHeight = 50;
+		
+		File upload = new File(realPath+"/assets/uploadedFile");
+		Files.copy(fileContent, upload.toPath());
+		BufferedImage rawImg = ImageIO.read(fileContent);
+		
+		BufferedImage large = ImageUtil.ResizeJpeg(largeWidth, largeHeight, rawImg);
+		BufferedImage thumb = ImageUtil.ResizeJpeg(thumbWidth, thumbHeight, rawImg);
+		
 	}
 }
