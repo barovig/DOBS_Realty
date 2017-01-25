@@ -9,5 +9,5 @@
          dataSourceName="jdbc/litrealty" localDataSource="true" 
          roleNameCol="role" userCredCol="password" 
          userNameCol="username" userRoleTable="roles" 
-         userTable="agents"/>
+         userTable="agents" digest="SHA-512"/>
 </Context>

@@ -31,15 +31,15 @@ public class DataSourceRealmSalted extends DataSourceRealm{
             PreparedStatement ps = dbConnection.prepareStatement("SELECT salt FROM salts WHERE username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            //String res = rs.toString();
+			rs.next();
             String salt = rs.getString("salt");
             // update password
-            //credentials=salt+credentials;
+            credentials= credentials+salt;
             
         }catch(SQLException se){
             // database error: don't authenticate (return null)
             // http://tomcat.apache.org/tomcat-8.0-doc/api/org/apache/catalina/realm/DataSourceRealm.html
-            return null;
+			return null;
         }
         // call parent with updated password
         return super.authenticate(dbConnection, username, credentials);
