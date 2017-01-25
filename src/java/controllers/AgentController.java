@@ -78,6 +78,8 @@ public class AgentController extends HttpServlet {
                 case "manage":
                     address = DoManage(request, agent);
                     break;
+				case "edit":
+					address = DoEdit(request, agent);
 				case "logout":
 					sess.invalidate();
 					address= "agent/agent.jsp";
@@ -176,9 +178,11 @@ public class AgentController extends HttpServlet {
 
 	private String DoManage(HttpServletRequest request, Agent agent) {	
 		String id = request.getParameter("id");
+		Property prop = null;
 		boolean found = false;
 		for(Property p : agent.getPropertyCollection()){
 			if(p.getId().toString().equals(id)){
+				prop = p;
 				found = true; break;
 			}
 		}
@@ -187,7 +191,27 @@ public class AgentController extends HttpServlet {
 			return "error.jsp";
 		}
 		else{
+			request.setAttribute("prop", prop);
 			return "agent/edit.jsp";
 		}
+	}
+
+	private String DoEdit(HttpServletRequest request, Agent agent) {
+		
+		// find property that is being edited
+		String listingNum = request.getParameter("listingNum");
+		Property property = null;
+		for(Property p : agent.getPropertyCollection()){
+			if(p.getListingNum().equals(listingNum)){
+				property = p; break;
+			}
+		}
+		
+		if(property == null)
+			return "error.jsp";
+		
+		// validate data and send it to model
+		
+		return null;
 	}
 }
