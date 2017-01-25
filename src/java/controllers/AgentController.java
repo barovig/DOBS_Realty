@@ -6,7 +6,10 @@
 package controllers;
 
 import database.entities.Agent;
+import database.entities.Garage;
 import database.entities.Property;
+import database.entities.PropertyType;
+import database.entities.Style;
 import database.models.AgentModel;
 import database.models.PropertyModel;
 import java.io.File;
@@ -82,7 +85,7 @@ public class AgentController extends HttpServlet {
 					address = DoEdit(request, agent);
 				case "logout":
 					sess.invalidate();
-					address= "agent/agent.jsp";
+					address= "homepage.jsp";
                 default:
                     address = DoDisplayAgentHome(request, agent);
                     break;
@@ -186,11 +189,21 @@ public class AgentController extends HttpServlet {
 				found = true; break;
 			}
 		}
+		// get comboboxes data
+		List<Style> styles = PropertyModel.getStyles();
+		List<PropertyType> pTypes = PropertyModel.getPTypes();
+		List<Garage> garages = PropertyModel.getGarages();
+		List<String> bers = PropertyModel.getBERs();
+		
 		if(!found){
 			request.setAttribute("msg", "You cannot manage this property");
 			return "error.jsp";
 		}
 		else{
+			request.setAttribute("styles", styles);
+			request.setAttribute("pTypes", pTypes);
+			request.setAttribute("garages", garages);
+			request.setAttribute("bers", bers);
 			request.setAttribute("prop", prop);
 			return "agent/edit.jsp";
 		}

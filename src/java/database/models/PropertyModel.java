@@ -8,6 +8,8 @@ package database.models;
 import database.config.DBConfig;
 import java.util.List;
 import database.entities.*;
+import java.util.Collections;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 /**
@@ -59,4 +61,37 @@ public class PropertyModel {
         em.close();
         return res;
     }
+	
+	public static List<String> getBERs(){
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        TypedQuery<String> tq = em.createNamedQuery("Property.getDistinctBERs", String.class);
+        List<String> res = tq.getResultList();
+        em.close();
+		Collections.sort(res);
+        return res;		
+	}
+
+	public static List<Style> getStyles(){
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        TypedQuery<Style> tq = em.createNamedQuery("Style.findAll", Style.class);
+        List<Style> res = tq.getResultList();
+        em.close();
+        return res;		
+	}
+	
+	public static List<PropertyType> getPTypes(){
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        TypedQuery<PropertyType> tq = em.createNamedQuery("PropertyType.findAll", PropertyType.class);
+        List<PropertyType> res = tq.getResultList();
+        em.close();
+        return res;			
+	}	
+	
+	public static List<Garage> getGarages(){
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        TypedQuery<Garage> tq = em.createNamedQuery("Garage.findAll", Garage.class);
+        List<Garage> res = tq.getResultList();
+        em.close();
+        return res;			
+	}
 }

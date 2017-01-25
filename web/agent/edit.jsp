@@ -14,7 +14,7 @@
         <div class="main-content">
         <%@ include file="../assets/jsp/header.jsp" %>
         <div class="content">
-            <form action="/AgentController?action=edit" method="post">
+            <form action="/AgentController?action=edit" method="post" name="edit_form">
                 <table>
                     <tr>
                         <td>Listing Number:</td>
@@ -39,11 +39,23 @@
                     </tr>
                     <tr>
                         <td>Type:</td>
-                        <td><input type="text" name="typeId" value="${prop.typeId.getPType()}" />
+                        <td>
+							<select name="typeId" form="edit_form">
+								<c:forEach var="type" items="${pTypes}">
+									<option value="${type.typeId}" ${prop.typeId.typeId == type.typeId ? "selected=selected" : ""}>${type.getPType()}</option>
+								</c:forEach>
+							</select>
+						</td>
                     </tr>
                     <tr>
                         <td>Style:</td>
-                        <td><input type="text" name="styleId" value="${prop.styleId.getPStyle()}" />
+                        <td>
+							<select name="styleId" form="edit_form">
+							<c:forEach var="style" items="${styles}">
+								<option value="${style.styleId}" ${prop.styleId.styleId == style.styleId ? "selected=selected" : ""}>${style.getPStyle()}</option>
+							</c:forEach>
+							</select>
+						</td>
                     </tr>
                     <tr>
                         <td>Number of bedrooms:</td>
@@ -55,7 +67,13 @@
                     </tr>
                     <tr>
                         <td>Garage Type:</td>
-                        <td><input type="text" name="garageId" value="${prop.garageId.getGType()}" />
+                        <td>
+							<select name="garageId" form="edit_form">
+							<c:forEach var="garage" items="${garages}">
+								<option value="${garage.garageId}" ${prop.garageId.garageId == garage.garageId ? "selected=selected" : ""}>${garage.getGType()}</option>
+							</c:forEach>
+							</select>
+						</td>
                     </tr>
                     <tr>
                         <td>Garage Size:</td>
@@ -67,7 +85,13 @@
                     </tr>
                     <tr>
                         <td>BER Rating</td>
-                        <td><input type="text" name="berRating" value="${prop.berRating}" />
+                        <td>
+							<select name="berRating" form="edit_form">
+							<c:forEach var="ber" items="${bers}">
+								<option value="${ber}" ${prop.berRating == ber ? "selected=selected" : ""}>${ber}</option>
+							</c:forEach>
+							</select>
+						</td>
                     </tr>					
                     <tr>
                         <td></td>
