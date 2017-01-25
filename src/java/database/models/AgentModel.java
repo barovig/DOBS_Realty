@@ -20,8 +20,8 @@ public class AgentModel {
         EntityManager em =  DBConfig.getEmf().createEntityManager();
         
         //create tq and use named query from accounts class
-        TypedQuery<Agent> tq = em.createNamedQuery("Agent.findByName", Agent.class);
-		tq.setParameter("name", agentName);
+        TypedQuery<Agent> tq = em.createNamedQuery("Agent.findByUsername", Agent.class);
+		tq.setParameter("username", agentName);
         Agent agent = tq.getSingleResult();
         em.close();
 

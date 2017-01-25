@@ -3,7 +3,10 @@
         <p><a href="${context}/PropertyController" >This is header</a></p>
     </div>
     <div class="header-right">
-            <div class="user_bar"> 
+		<div class="user_bar">
+		<c:set var="user" value="${sessionScope.user}" />
+		<c:choose>
+			<c:when test="${user == null}">
             <div class="dropdown">
                 <button class="dropbtn" >Favourites <span id="fav-count">${favs.size()}</span></button>
                 <div class="dropdown-content">
@@ -33,6 +36,14 @@
                     </c:forEach>
                 </div>
             </div>
-        </div>
+			</c:when>
+			<c:otherwise>
+				<div>
+					<p class="greeting">Hello, ${sessionScope.user.getName()}<p/>
+					<p><a href="${context}/AgentController?action=logout">Logout</a></p>
+				</div>
+			</c:otherwise>
+			</c:choose>
+			</div>
     </div>
 </div>

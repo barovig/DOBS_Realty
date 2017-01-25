@@ -8,10 +8,13 @@ package controllers;
 import database.entities.Agent;
 import database.entities.Property;
 import database.models.AgentModel;
+import database.models.PropertyModel;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -64,19 +67,22 @@ public class AgentController extends HttpServlet {
             // the address
             switch(action){
                 case "details":
-//                    address = DoDrilldown(request);
+                    address = DoDrilldown(request);
                     break;
                 case "agent_home":
-                    address = DoDisplayAgentHome(request);
+                    address = DoDisplayAgentHome(request, agent);
                     break;
-                case "search":
-//                    address = DoSearch(request);
+                case "delete":
+                    address = DoDelete(request, agent);
                     break;
-                case "setfav":
-//                    address = DoSetFavourite(request, response, favs);
+                case "manage":
+                    address = DoManage(request, agent);
                     break;
+				case "logout":
+					sess.invalidate();
+					address= "agent/agent.jsp";
                 default:
-                    address = DoDisplayAgentHome(request);
+                    address = DoDisplayAgentHome(request, agent);
                     break;
 			}
         }// end try
@@ -133,8 +139,55 @@ public class AgentController extends HttpServlet {
 		return null;
 	}
 
-	private String DoDisplayAgentHome(HttpServletRequest request) {
+	private String DoDisplayAgentHome(HttpServletRequest request, Agent agent) {
+
+		request.setAttribute("list", agent.getPropertyCollection());
+		return "agent/agent.jsp";
+
+	}
+
+    private String DoDrilldown(HttpServletRequest request) {
+        
+        String id = request.getParameter("id");
+        Property property = PropertyModel.getPropertyById(id);
+        
+        // Process images:
+        // get folder name:
+        String photo = property.getPhoto();
+        String imgFolder = photo.substring(0, photo.lastIndexOf("."));
+        // get real path for root context
+        String rPath = request.getServletContext().getRealPath("/");
+        File folder = new File(rPath+"assets/img/properties/large/"+imgFolder+"/");
+        // get filenames
+        File[] imgFiles = folder.listFiles();
+                
+        // set attributes
+        request.setAttribute("img_folder", imgFolder);
+        request.setAttribute("img_files", imgFiles);
+        request.setAttribute("agent", property.getAgentId());
+        request.setAttribute("prop", property);
+        
+        return "/drilldown.jsp";
+    }
+
+	private String DoDelete(HttpServletRequest request, Agent agent) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-	
+
+	private String DoManage(HttpServletRequest request, Agent agent) {	
+		String id = request.getParameter("id");
+		boolean found = false;
+		for(Property p : agent.getPropertyCollection()){
+			if(p.getId().toString().equals(id)){
+				found = true; break;
+			}
+		}
+		if(!found){
+			request.setAttribute("msg", "You cannot manage this property");
+			return "error.jsp";
+		}
+		else{
+			return "agent/edit.jsp";
+		}
+	}
 }
