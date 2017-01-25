@@ -14,7 +14,7 @@
         <div class="main-content">
         <%@ include file="../assets/jsp/header.jsp" %>
         <div class="content">
-            <form action="/AgentController?action=edit" method="post" name="edit_form">
+            <form action="${context}/AgentController?action=edit" method="post" id="edit_form">
                 <table>
                     <tr>
                         <td>Listing Number:</td>

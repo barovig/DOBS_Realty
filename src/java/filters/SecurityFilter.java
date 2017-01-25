@@ -36,7 +36,7 @@ public class SecurityFilter implements Filter{
     private FilterConfig filterConfig = null;
 	
 	private static enum Types{
-		INTEGER, DOUBLE, STRING, DATE
+		INTEGER, DOUBLE, STRING, DATE, SHORT, FLOAT
 	}
 	private String msg;
 	
@@ -53,9 +53,9 @@ public class SecurityFilter implements Filter{
 		attribs.put("typeId", Types.INTEGER);
 		attribs.put("styleId", Types.INTEGER);
 		attribs.put("bedrooms", Types.INTEGER);
-		attribs.put("bathrooms", Types.DOUBLE);
+		attribs.put("bathrooms", Types.FLOAT);
 		attribs.put("garageId", Types.INTEGER);
-		attribs.put("garageSize", Types.INTEGER);
+		attribs.put("garageSize", Types.SHORT);
 		attribs.put("lotSize", Types.STRING);
 		attribs.put("berRating", Types.STRING);		
 	}
@@ -65,8 +65,8 @@ public class SecurityFilter implements Filter{
 		// regex matching invalid characters for parameters
 		rgxMap = new HashMap<>();
 		rgxMap.put("action", "[^a-z_]");
-		rgxMap.put("street", "[^-a-zA-Z0-9().]");
-		rgxMap.put("city", "[^-a-zA-Z0-9().]");
+		rgxMap.put("street", "[^-a-zA-Z0-9()., ]");
+		rgxMap.put("city", "[^-a-zA-Z0-9()., ]");
 		rgxMap.put("lotSize", "[^0-9x]");
 		rgxMap.put("berRating", "[^0-9A-G]");
 	}
@@ -86,8 +86,8 @@ public class SecurityFilter implements Filter{
 			httpResp.sendError(418, msg);
 			return;
 		}
-		filterConfig.getServletContext()
-				.log("Servlet path: "+httpReq.getServletPath());
+//		filterConfig.getServletContext()
+//				.log("Servlet path: "+httpReq.getServletPath());
 		chain.doFilter(request, response);
 	}
 
@@ -113,8 +113,14 @@ public class SecurityFilter implements Filter{
 						valid = validateInt(request.getParameter(p));
 						break;
 					case DOUBLE:
-						valid = validateDecimal(request.getParameter(p));
+						valid = validateDouble(request.getParameter(p));
 						break;
+					case FLOAT:
+						valid = validateFloat(request.getParameter(p));
+						break;
+					case SHORT:
+						valid = validateShort(request.getParameter(p));
+						break;						
 					case STRING:
 						valid = validateString(request.getParameter(p), rgxMap.get(p));
 						break;
@@ -124,7 +130,11 @@ public class SecurityFilter implements Filter{
 					default:
 				}
 			}
-			if(!valid) break;
+			if(!valid){
+				filterConfig.getServletContext()
+					.log("Error validating parameter ("+p+")");
+				break;
+			}
 		}
 		return valid;
 	}
@@ -134,28 +144,60 @@ public class SecurityFilter implements Filter{
 			Integer.parseInt(value);
 		}
 		catch(Exception e){
+			filterConfig.getServletContext()
+				.log("Error validating Int parameter ("+value+")");
 			return false;
 		}
 		return true;
 	}
 	
-	private boolean validateDecimal(String value){
+	private boolean validateDouble(String value){
 		try{
 			Double.parseDouble(value);
 		}
 		catch(Exception e){
+			filterConfig.getServletContext()
+				.log("Error validating Double parameter ("+value+")");
 			return false;
 		}
 		return true;
 	}
 	
+	private boolean validateShort(String value){
+		try{
+			Short.parseShort(value);
+		}
+		catch(Exception e){
+			filterConfig.getServletContext()
+				.log("Error validating Double parameter ("+value+")");			
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean validateFloat(String value){
+		try{
+			Float.parseFloat(value);
+		}
+		catch(Exception e){
+			filterConfig.getServletContext()
+				.log("Error validating Double parameter ("+value+")");			
+			return false;
+		}
+		return true;
+	}
 	private boolean validateString(String value, String regex){
 		// regex should match for disallowed characters
 		Pattern r = Pattern.compile(regex);
 		Matcher m = r.matcher(value);
 		// return inverse of matching 
 		// (e.g. regex for special chars->matched->return false
-		return !m.find();
+		if(m.find()){
+			filterConfig.getServletContext()
+				.log("Error validating String parameter ("+value+") with regex ("+regex+")");
+			return false;
+		}
+		return true;
 	}
 	
 	private boolean validateDate(String date) {
@@ -164,6 +206,8 @@ public class SecurityFilter implements Filter{
 			Date d = format.parse(date);
 		}
 		catch(Exception e){
+			filterConfig.getServletContext()
+				.log("Error validating Date parameter ("+date+")");			
 			return false;
 		}
 		return true;

@@ -11,6 +11,7 @@ import database.entities.*;
 import java.util.Collections;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 /**
  *
@@ -94,4 +95,96 @@ public class PropertyModel {
         em.close();
         return res;			
 	}
+	
+	public static PropertyType getPropertyTypeById(String id) {
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        
+        //create tq and use named query from accounts class
+        TypedQuery<PropertyType> tq = em.createNamedQuery("PropertyType.findByTypeId", PropertyType.class);
+        int numId = Integer.parseInt(id);
+        tq.setParameter("typeId", numId);
+        PropertyType pt = tq.getSingleResult();
+        em.close();
+
+        return pt;   
+    }
+	
+	public static Style getStyleById(String id) {
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        
+        //create tq and use named query from accounts class
+        TypedQuery<Style> tq = em.createNamedQuery("Style.findByStyleId", Style.class);
+        int numId = Integer.parseInt(id);
+        tq.setParameter("styleId", numId);
+        Style style = tq.getSingleResult();
+        em.close();
+
+        return style;   
+    }
+	
+	public static Garage getGarageById(String id) {
+        EntityManager em =  DBConfig.getEmf().createEntityManager();
+        
+        //create tq and use named query from accounts class
+        TypedQuery<Garage> tq = em.createNamedQuery("Garage.findByGarageId", Garage.class);
+        int numId = Integer.parseInt(id);
+        tq.setParameter("garageId", numId);
+        Garage g = tq.getSingleResult();
+        em.close();
+
+        return g;   
+    }
+
+	public static void updateProperty(Property property) {
+		EntityManager em = DBConfig.getEmf().createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		try{
+			et.begin();
+			em.merge(property);
+			et.commit();			
+		}
+		catch(Exception e){
+			et.rollback();
+		}
+		finally{
+			em.close();
+		}
+
+	}
+	public static void insertProperty(Property property) {
+		EntityManager em = DBConfig.getEmf().createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		try{
+			et.begin();
+			em.persist(property);
+			et.commit();			
+		}
+		catch(Exception e){
+			et.rollback();
+		}
+		finally{
+			em.close();
+		}
+
+	}
+	
+	public static void deleteProperty(Property property) {
+		EntityManager em = DBConfig.getEmf().createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		try{
+			et.begin();
+			em.remove(em.merge(property));
+			et.commit();			
+		}
+		catch(Exception e){
+			et.rollback();
+		}
+		finally{
+			em.close();
+		}
+
+	}	
 }

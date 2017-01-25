@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
+import org.jcp.xml.dsig.internal.dom.Utils;
 
 /**
  *
@@ -83,9 +85,11 @@ public class AgentController extends HttpServlet {
                     break;
 				case "edit":
 					address = DoEdit(request, agent);
+					break;
 				case "logout":
 					sess.invalidate();
 					address= "homepage.jsp";
+					break;
                 default:
                     address = DoDisplayAgentHome(request, agent);
                     break;
@@ -211,11 +215,12 @@ public class AgentController extends HttpServlet {
 
 	private String DoEdit(HttpServletRequest request, Agent agent) {
 		
+		// NOTE: Data validated by filter.
 		// find property that is being edited
-		String listingNum = request.getParameter("listingNum");
+		int listingNum = Integer.parseInt(request.getParameter("listingNum"));
 		Property property = null;
 		for(Property p : agent.getPropertyCollection()){
-			if(p.getListingNum().equals(listingNum)){
+			if(p.getListingNum() == listingNum){
 				property = p; break;
 			}
 		}
@@ -223,8 +228,29 @@ public class AgentController extends HttpServlet {
 		if(property == null)
 			return "error.jsp";
 		
-		// validate data and send it to model
+		// Parse data.
+		Enumeration<String> params = request.getParameterNames();
+		// get references for Property member objects
+		PropertyType pType = PropertyModel.getPropertyTypeById(request.getParameter("typeId"));
+		Style style = PropertyModel.getStyleById(request.getParameter("styleId"));
+		Garage garage = PropertyModel.getGarageById(request.getParameter("garageId"));
 		
-		return null;
+		// update property
+		property.setStreet(request.getParameter("street"));
+		property.setCity(request.getParameter("city"));
+		property.setPrice(Double.parseDouble(request.getParameter("price")));
+		property.setBedrooms(Integer.parseInt(request.getParameter("bedrooms")));
+		property.setBathrooms(Float.parseFloat(request.getParameter("bathrooms")));
+		property.setGaragesize(Short.parseShort(request.getParameter("garageSize")));
+		property.setLotsize(request.getParameter("lotSize"));
+		property.setBerRating(request.getParameter("berRating"));
+		
+		property.setStyleId(style);
+		property.setTypeId(pType);
+		property.setGarageId(garage);
+		
+		PropertyModel.updateProperty(property);
+		
+		return "AgentController?action=manage&id="+property.getId();
 	}
 }
