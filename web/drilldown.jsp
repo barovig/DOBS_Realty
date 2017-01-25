@@ -7,12 +7,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="assets/html/links.html" %>
+        <%@include file="assets/jsp/links.jsp" %>
         <title></title>
     </head>
     <body>
         <div class="main-content">
-        <%@ include file="assets/html/header.html" %>       
+        <%@ include file="assets/jsp/header.jsp" %>       
         <div class="content"> 
             <div class="drilldown">
                 <div id="drilldown-listnum"><p>Listing number: ${prop.listingNum}</p></div>
@@ -76,9 +76,9 @@
               </table>
         </div>
         <div class="dashboard">
-            <%@include file="assets/html/agent.html" %>
+            <%@include file="assets/jsp/agent.jsp" %>
         </div>
-        <%@ include file="assets/html/footer.html" %>
+        <%@ include file="assets/jsp/footer.jsp" %>
         </div>
     </body>
 </html>

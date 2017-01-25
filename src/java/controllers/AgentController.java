@@ -5,14 +5,22 @@
  */
 package controllers;
 
+import database.entities.Agent;
+import database.entities.Property;
+import database.models.AgentModel;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 /**
  *
@@ -36,7 +44,46 @@ public class AgentController extends HttpServlet {
         
         String address = "agent/agent.jsp";
 
-
+		try{
+			// get session and j_username
+			HttpSession sess = request.getSession();
+			String agentName = request.getUserPrincipal().getName();
+			
+			// get Agent and put into session
+			Agent agent = AgentModel.getAgentByName(agentName);
+			sess.setAttribute("user", agent);
+			
+            // get action parameter for callback
+            String action = request.getParameter("action");
+            
+            // if it is null - homepage requested
+            if(action == null)
+                action = "agent_home";
+            
+            // perform action (which will set relevant paremeters) and return
+            // the address
+            switch(action){
+                case "details":
+//                    address = DoDrilldown(request);
+                    break;
+                case "agent_home":
+                    address = DoDisplayAgentHome(request);
+                    break;
+                case "search":
+//                    address = DoSearch(request);
+                    break;
+                case "setfav":
+//                    address = DoSetFavourite(request, response, favs);
+                    break;
+                default:
+                    address = DoDisplayAgentHome(request);
+                    break;
+			}
+        }// end try
+        catch (Exception ex) {
+            address = "/error.jsp";
+        }//end catch
+		
         RequestDispatcher dispatcher = request.getRequestDispatcher(address);
         dispatcher.forward(request, response);
         
@@ -81,4 +128,13 @@ public class AgentController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+
+	private ArrayList<Property> GetAgentProperties(HttpServletRequest request) {
+		return null;
+	}
+
+	private String DoDisplayAgentHome(HttpServletRequest request) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+	
 }

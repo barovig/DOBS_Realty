@@ -7,11 +7,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="assets/html/links.html" %>
+        <%@include file="assets/jsp/links.jsp" %>
         <title></title>
     </head>
     <body>
-        <%@ include file="assets/html/header.html" %>
+        <%@ include file="assets/jsp/header.jsp" %>
         <div class="main-content">
         <div class="content">
             <div class="searches">
@@ -89,6 +89,6 @@
             </div>
         </div>
         </div>
-        <%@ include file="assets/html/footer.html" %>
+        <%@ include file="assets/jsp/footer.jsp" %>
     </body>
 </html>
