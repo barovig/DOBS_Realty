@@ -14,12 +14,10 @@ import database.models.AgentModel;
 import database.models.PropertyModel;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +25,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
-import org.jcp.xml.dsig.internal.dom.Utils;
 
 /**
  *
@@ -199,11 +195,19 @@ public class AgentController extends HttpServlet {
 		List<Garage> garages = PropertyModel.getGarages();
 		List<String> bers = PropertyModel.getBERs();
 		
+		// get image data
+        String rPath = request.getServletContext().getRealPath("/");
+        File folder = new File(rPath+"assets/img/properties/large/"+prop.getListingNum()+"/");
+        // get filenames
+        File[] imgFiles = folder.listFiles();
+		
 		if(!found){
 			request.setAttribute("msg", "You cannot manage this property");
 			return "error.jsp";
 		}
 		else{
+			request.setAttribute("img_folder", prop.getListingNum());
+			request.setAttribute("img_files", imgFiles);
 			request.setAttribute("styles", styles);
 			request.setAttribute("pTypes", pTypes);
 			request.setAttribute("garages", garages);
@@ -229,7 +233,8 @@ public class AgentController extends HttpServlet {
 			return "error.jsp";
 		
 		// Parse data.
-		Enumeration<String> params = request.getParameterNames();
+Enumeration<String> params = request.getParameterNames();
+Map<String, String[]> vals = request.getParameterMap();
 		// get references for Property member objects
 		PropertyType pType = PropertyModel.getPropertyTypeById(request.getParameter("typeId"));
 		Style style = PropertyModel.getStyleById(request.getParameter("styleId"));

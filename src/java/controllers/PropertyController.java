@@ -101,8 +101,7 @@ public class PropertyController extends HttpServlet {
         
         // Process images:
         // get folder name:
-        String photo = property.getPhoto();
-        String imgFolder = photo.substring(0, photo.lastIndexOf("."));
+        String imgFolder = property.getListingNum().toString();
         // get real path for root context
         String rPath = request.getServletContext().getRealPath("/");
         File folder = new File(rPath+"assets/img/properties/large/"+imgFolder+"/");

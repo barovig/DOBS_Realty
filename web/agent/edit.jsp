@@ -93,10 +93,22 @@
 							</select>
 						</td>
                     </tr>					
-                    <tr>
-                        <td></td>
+					<tr>
+						<td>Remove images:</td>
+						<td>
+						<c:forEach var="img" items="${img_files}">
+							<img 
+								class="dd-thumb-pics" 
+								src="${context}/assets/img/properties/large/${img_folder}/${img.getName()}"
+								 />
+							<input type="checkbox" name="delImgs" value="${img.getName()}" />
+						</c:forEach>
+						</td>
+					</tr>
+					<tr>
+                        <td><a href="" id="upld-btn">Upload more images..</a></td>
                         <td><input type="submit" value="Update" />
-                    </tr>                    
+                    </tr>
                 </table>
             </form>
         </div>
