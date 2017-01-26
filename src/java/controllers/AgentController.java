@@ -13,6 +13,8 @@ import database.entities.Style;
 import database.models.AgentModel;
 import database.models.PropertyModel;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -140,11 +142,10 @@ public class AgentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-		processUpload(request);
         processRequest(request, response);
     }
 
-	private void processUpload(HttpServletRequest request) throws ServletException, IOException {
+	private void processUpload(HttpServletRequest request, String listingNum) throws ServletException, IOException {
 		// get description param (multipart form)
 		String description = request.getParameter("description");
 		if(description != null){
@@ -161,7 +162,8 @@ public class AgentController extends HttpServlet {
 				String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 				InputStream fileContent = filePart.getInputStream();
 				ProcessFileUpload(fileContent, 
-						request.getServletContext().getRealPath("/"));
+						request.getServletContext().getRealPath("/"),
+						listingNum);
 			}		
 		}
 	}
@@ -255,7 +257,7 @@ public class AgentController extends HttpServlet {
 	}
 
 	private String DoEdit(HttpServletRequest request, Agent agent)
-			throws IOException{
+			throws IOException, ServletException{
 		
 		// NOTE: Data validated by filter.
 		// find property that is being edited
@@ -276,6 +278,9 @@ public class AgentController extends HttpServlet {
 					property.getListingNum().toString(),
 					request.getServletContext().getRealPath("/"));
 		}
+		// handle image upload
+		processUpload(request, property.getListingNum().toString());
+		
 		// Parse data.
 Enumeration<String> params = request.getParameterNames();
 Map<String, String[]> vals = request.getParameterMap();
@@ -323,7 +328,7 @@ Map<String, String[]> vals = request.getParameterMap();
 		
 	}
 
-	private void ProcessFileUpload(InputStream fileContent, String realPath) 
+	private void ProcessFileUpload(InputStream fileContent, String realPath, String lsNum) 
 			throws IOException {
 		System.out.println("Uploaded file.");
 		// img configuration params
@@ -332,12 +337,42 @@ Map<String, String[]> vals = request.getParameterMap();
 		int thumbWidth = 75;
 		int thumbHeight = 50;
 		
-		File upload = new File(realPath+"/assets/uploadedFile");
-		Files.copy(fileContent, upload.toPath());
 		BufferedImage rawImg = ImageIO.read(fileContent);
-		
 		BufferedImage large = ImageUtil.ResizeJpeg(largeWidth, largeHeight, rawImg);
-		BufferedImage thumb = ImageUtil.ResizeJpeg(thumbWidth, thumbHeight, rawImg);
 		
+		String newFileDir = realPath+"assets/img/properties/large/"+lsNum+"/";
+		String newFile = GetNewFileName(newFileDir, lsNum);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(large, "jpg", baos);
+		InputStream is = new ByteArrayInputStream(baos.toByteArray());
+
+		File upload = new File(newFile);
+		Files.copy(is, upload.toPath());	
+		
+	}
+
+	private String GetNewFileName(String newFileDir, String lsNum) {
+		boolean ex  = Files.exists(Paths.get(newFileDir));
+		if(!ex){
+			return newFileDir + lsNum+".jpg";
+		}
+		
+		String name = newFileDir+lsNum;
+		File[ ] existing = new File(newFileDir).listFiles();
+		int suffix = 1;
+		for(File f : existing){
+			String fn = f.getName();
+			if(fn.contains("-")){
+				int sfx = Integer.parseInt(fn.substring(
+						fn.indexOf("-")+1, 
+						fn.indexOf(".")));
+				if(sfx > suffix)
+					suffix = sfx+1;
+			}
+		}
+		newFileDir += lsNum+"-"+suffix+".jpg";
+		
+		return newFileDir;
 	}
 }
