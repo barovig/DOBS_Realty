@@ -14,36 +14,36 @@
         <div class="main-content">
         <%@ include file="../assets/jsp/header.jsp" %>
         <div class="content">
-            <form action="${context}/AgentController?action=edit" method="post" id="edit_form" 
+            <form action="${context}/AgentController?action=add" method="post" id="add_form" 
 				  enctype="multipart/form-data" multiple="true">
                 <table>
                     <tr>
                         <td>Listing Number:</td>
-                        <td><input type="text" name="listingNum" value="${prop.listingNum}" readonly/></td>
+                        <td><input type="text" name="listingNum" /></td>
                     </tr>
                     <tr>
                         <td>Date Added:</td>
 						<td><fmt:formatDate type="both" dateStyle="long" timeStyle="long" 
-								value="${prop.dateAdded}" /></td>
+								value="${date}" /></td>
                     </tr>
                     <tr>
                         <td>Street:</td>
-                        <td><input type="text" name="street" value="${prop.street}" />
+                        <td><input type="text" name="street" />
                     </tr>
                     <tr>
                         <td>City:</td>
-                        <td><input type="text" name="city" value="${prop.city}" />
+                        <td><input type="text" name="city" />
                     </tr>
                     <tr>
                         <td>Price:</td>
-                        <td><input type="text" name="price" value="${prop.price}" />
+                        <td><input type="text" name="price"  />
                     </tr>
                     <tr>
                         <td>Type:</td>
                         <td>
-							<select name="typeId" form="edit_form">
+							<select name="typeId" form="add_form">
 								<c:forEach var="type" items="${pTypes}">
-									<option value="${type.typeId}" ${prop.typeId.typeId == type.typeId ? "selected=selected" : ""}>${type.getPType()}</option>
+									<option value="${type.typeId}">${type.getPType()}</option>
 								</c:forEach>
 							</select>
 						</td>
@@ -51,72 +51,60 @@
                     <tr>
                         <td>Style:</td>
                         <td>
-							<select name="styleId" form="edit_form">
+							<select name="styleId" form="add_form">
 							<c:forEach var="style" items="${styles}">
-								<option value="${style.styleId}" ${prop.styleId.styleId == style.styleId ? "selected=selected" : ""}>${style.getPStyle()}</option>
+								<option value="${style.styleId}" >${style.getPStyle()}</option>
 							</c:forEach>
 							</select>
 						</td>
                     </tr>
                     <tr>
                         <td>Number of bedrooms:</td>
-                        <td><input type="number" name="bedrooms" value="${prop.bedrooms}" />
+                        <td><input type="number" name="bedrooms"  />
                     </tr>
                     <tr>
                         <td>Number of bathrooms</td>
-                        <td><input type="text" name="bathrooms" value="${prop.bathrooms}" />
+                        <td><input type="text" name="bathrooms"  />
                     </tr>
                     <tr>
                         <td>Garage Type:</td>
                         <td>
-							<select name="garageId" form="edit_form">
+							<select name="garageId" form="add_form">
 							<c:forEach var="garage" items="${garages}">
-								<option value="${garage.garageId}" ${prop.garageId.garageId == garage.garageId ? "selected=selected" : ""}>${garage.getGType()}</option>
+								<option value="${garage.garageId}">${garage.getGType()}</option>
 							</c:forEach>
 							</select>
 						</td>
                     </tr>
                     <tr>
                         <td>Garage Size:</td>
-                        <td><input type="text" name="garageSize" value="${prop.garagesize}" />
+                        <td><input type="text" name="garageSize"  />
                     </tr>
                     <tr>
                         <td>Squarefeet:</td>
-                        <td><input type="text" name="squarefeet" value="${prop.squarefeet}" />
+                        <td><input type="text" name="squarefeet"  />
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td><textarea rows="10" cols="100" name="description">${prop.description}</textarea>
+                        <td><textarea rows="10" cols="100" name="description"></textarea>
                     </tr>						
 					<tr>
                         <td>Lot Size:</td>
-                        <td><input type="text" name="lotSize" value="${prop.lotsize}" />
+                        <td><input type="text" name="lotSize"  />
                     </tr>
                     <tr>
                         <td>BER Rating</td>
                         <td>
-							<select name="berRating" form="edit_form">
+							<select name="berRating" form="add_form">
 							<c:forEach var="ber" items="${bers}">
-								<option value="${ber}" ${prop.berRating == ber ? "selected=selected" : ""}>${ber}</option>
+								<option value="${ber}" >${ber}</option>
 							</c:forEach>
 							</select>
 						</td>
                     </tr>					
 					<tr>
-						<td>Remove images:</td>
 						<td>
-						<c:forEach var="img" items="${img_files}">
-							<img 
-								class="dd-thumb-pics" 
-								src="${context}/assets/img/properties/large/${img_folder}/${img.getName()}"
-								 />
-							<input type="checkbox" name="delImgs" value="${img.getName()}" />
-						</c:forEach>
-						</td>
-					</tr>
-					<tr>
-						<td>
-								<input type="text" name="description" value="Upload more (jpeg) photos:"/>
+								<input type="text" name="uplDesc" value="Upload more (jpeg) photos:"/>
 								<input type="file" name="file" accept=".jpg,.JPG,image/jpeg" />
 							</form>
 						</td>

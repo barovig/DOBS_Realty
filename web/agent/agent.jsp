@@ -15,6 +15,7 @@
         <%@ include file="../assets/jsp/header.jsp" %>
         <div class="content">
             <h2>Your Properties List</h2>
+			<a href="${context}/AgentController?action=insert">Add New Property</a>
 			<table id="propertyTable">
                 <thead>
                 <tr>

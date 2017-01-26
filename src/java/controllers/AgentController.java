@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +98,12 @@ public class AgentController extends HttpServlet {
                     break;
 				case "edit":
 					address = DoEdit(request, agent);
+					break;
+				case "insert":
+					address = DoInsert(request, agent);
+					break;
+				case "add":
+					address = DoAdd(request, agent);
 					break;
 				case "logout":
 					sess.invalidate();
@@ -282,8 +289,6 @@ public class AgentController extends HttpServlet {
 		processUpload(request, property.getListingNum().toString());
 		
 		// Parse data.
-Enumeration<String> params = request.getParameterNames();
-Map<String, String[]> vals = request.getParameterMap();
 		// get references for Property member objects
 		PropertyType pType = PropertyModel.getPropertyTypeById(request.getParameter("typeId"));
 		Style style = PropertyModel.getStyleById(request.getParameter("styleId"));
@@ -298,11 +303,13 @@ Map<String, String[]> vals = request.getParameterMap();
 		property.setGaragesize(Short.parseShort(request.getParameter("garageSize")));
 		property.setLotsize(request.getParameter("lotSize"));
 		property.setBerRating(request.getParameter("berRating"));
+		property.setDescription(request.getParameter("description"));
+		property.setSquarefeet(Integer.parseInt(request.getParameter("squarefeet")));
 		
 		property.setStyleId(style);
 		property.setTypeId(pType);
 		property.setGarageId(garage);
-		
+
 		PropertyModel.updateProperty(property);
 		
 		return "AgentController?action=manage&id="+property.getId();
@@ -375,4 +382,54 @@ Map<String, String[]> vals = request.getParameterMap();
 		
 		return newFileDir;
 	}
+
+	private String DoInsert(HttpServletRequest request, Agent agent) {
+
+			// get comboboxes data
+			List<Style> styles = PropertyModel.getStyles();
+			List<PropertyType> pTypes = PropertyModel.getPTypes();
+			List<Garage> garages = PropertyModel.getGarages();
+			List<String> bers = PropertyModel.getBERs();
+			Date date = new Date();
+			
+			request.setAttribute("styles", styles);
+			request.setAttribute("pTypes", pTypes);
+			request.setAttribute("garages", garages);
+			request.setAttribute("bers", bers);
+			request.setAttribute("date", date);
+			return "agent/insert.jsp";
+
+	}
+
+	private String DoAdd(HttpServletRequest request, Agent agent) {
+		Property property = new Property();
+		
+		property.setAgentId(agent);
+		property.setDateAdded(new Date());
+		
+		// get references for Property member objects
+		PropertyType pType = PropertyModel.getPropertyTypeById(request.getParameter("typeId"));
+		Style style = PropertyModel.getStyleById(request.getParameter("styleId"));
+		Garage garage = PropertyModel.getGarageById(request.getParameter("garageId"));
+		
+		// update property
+		property.setStreet(request.getParameter("street"));
+		property.setCity(request.getParameter("city"));
+		property.setPrice(Double.parseDouble(request.getParameter("price")));
+		property.setBedrooms(Integer.parseInt(request.getParameter("bedrooms")));
+		property.setBathrooms(Float.parseFloat(request.getParameter("bathrooms")));
+		property.setGaragesize(Short.parseShort(request.getParameter("garageSize")));
+		property.setLotsize(request.getParameter("lotSize"));
+		property.setBerRating(request.getParameter("berRating"));
+		property.setStyleId(style);
+		property.setTypeId(pType);
+		property.setGarageId(garage);
+		property.setDescription(request.getParameter("description"));
+		property.setSquarefeet(Integer.parseInt(request.getParameter("squarefeet")));
+		property.setListingNum(Integer.parseInt(request.getParameter("listingNum")));
+		PropertyModel.insertProperty(property);
+		
+		return "agent/agent.jsp";
+	}
+
 }
