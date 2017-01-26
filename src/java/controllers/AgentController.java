@@ -221,7 +221,7 @@ public class AgentController extends HttpServlet {
         return "/drilldown.jsp";
     }
 
-	private String DoDelete(HttpServletRequest request, Agent agent) {
+	private String DoDelete(HttpServletRequest request, Agent agent) throws IOException {
 		String id = request.getParameter("id");
 		Property prop = null;
 		boolean found = false;
@@ -237,7 +237,9 @@ public class AgentController extends HttpServlet {
 			request.setAttribute("msg", "You cannot delete this property");
 			return "error.jsp";			
 		}
-		
+		// archive images
+		handleImageArchiving(prop.getListingNum().toString(), 
+				request.getServletContext().getRealPath("/"));
 		PropertyModel.archiveProperty(prop);
 		PropertyModel.deleteProperty(prop);
 		return "AgentController?action=agent_home";
@@ -352,7 +354,25 @@ public class AgentController extends HttpServlet {
 		}
 		
 	}
+	private void handleImageArchiving(String imgDir, String rPath)
+			throws IOException{
+		// get image data
+        File folder = new File(rPath+"assets/img/properties/large/"+imgDir+"/");
+		Path archive = Paths.get(rPath+"archive/"+imgDir);
+		
+		// check and create directories if they don't exist
+		if(!Files.exists(archive))
+			Files.createDirectories(archive);
+		
+		// move files to archive
 
+		Path src = Paths.get(rPath+"assets/img/properties/large/"+imgDir+"/");
+		Path dest = Paths.get(archive+"/");
+//			File img = new File(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
+		Files.move(src, dest, REPLACE_EXISTING);
+
+		
+	}
 	private void ProcessFileUpload(InputStream fileContent, String realPath, String lsNum) 
 			throws IOException {
 		System.out.println("Uploaded file.");
