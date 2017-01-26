@@ -142,7 +142,9 @@ public class PropertyModel {
 		try{
 			et.begin();
 			em.merge(property);
-			et.commit();			
+			et.commit();
+			// refresh from cache
+			em.getEntityManagerFactory().getCache().evictAll();
 		}
 		catch(Exception e){
 			et.rollback();
@@ -159,7 +161,9 @@ public class PropertyModel {
 		try{
 			et.begin();
 			em.persist(property);
-			et.commit();			
+			et.commit();
+			// refresh from cache
+			em.getEntityManagerFactory().getCache().evictAll();
 		}
 		catch(Exception e){
 			et.rollback();
@@ -177,7 +181,9 @@ public class PropertyModel {
 		try{
 			et.begin();
 			em.remove(em.merge(property));
-			et.commit();			
+			et.commit();
+			// refresh from cache
+			em.getEntityManagerFactory().getCache().evictAll();
 		}
 		catch(Exception e){
 			et.rollback();

@@ -401,7 +401,7 @@ public class AgentController extends HttpServlet {
 
 	}
 
-	private String DoAdd(HttpServletRequest request, Agent agent) {
+	private String DoAdd(HttpServletRequest request, Agent agent) throws IOException, ServletException {
 		Property property = new Property();
 		
 		property.setAgentId(agent);
@@ -427,9 +427,57 @@ public class AgentController extends HttpServlet {
 		property.setDescription(request.getParameter("description"));
 		property.setSquarefeet(Integer.parseInt(request.getParameter("squarefeet")));
 		property.setListingNum(Integer.parseInt(request.getParameter("listingNum")));
+		property.setPhoto(request.getParameter("listingNum")+".jpg");
 		PropertyModel.insertProperty(property);
 		
-		return "agent/agent.jsp";
+		
+		HandleInsertFileUpload(request);
+		
+		return "/AgentController?action=agent_home";
 	}
 
+	private void HandleInsertFileUpload(HttpServletRequest request) throws IOException, ServletException {
+
+			// get file Part list from getParts() collection
+			Collection<Part> partCollection = request.getParts();
+			List<Part> parts = new ArrayList<>();
+			for(Part p : partCollection){
+				if(p.getName().equals("file")){
+					parts.add(p);
+				}
+			}
+			
+			// img configuration params
+			int largeWidth = 480;
+			int largeHeight = 320;
+			int thumbWidth = 75;
+			int thumbHeight = 50;
+			
+			String lsNum = request.getParameter("listingNum");
+			String thumbDir = request.getServletContext().getRealPath("/")+"assets/img/properties/thumbs/";
+			int sfx = 0;
+			for (Part filePart : parts) {
+				
+				String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+				InputStream fileContent = filePart.getInputStream();
+				BufferedImage rawImg = ImageIO.read(fileContent);
+				BufferedImage large = ImageUtil.ResizeJpeg(largeWidth, largeHeight, rawImg);
+				
+				if(sfx == 0){
+					BufferedImage thumb = ImageUtil.ResizeJpeg(thumbWidth, thumbHeight, rawImg);
+					String newFileDir = request.getServletContext().getRealPath("/")+"assets/img/properties/large/"+lsNum+"/";
+					String newFile = newFileDir+lsNum+".jpg";
+					String thumbFile = thumbDir+lsNum+".jpg";
+					ImageUtil.SaveBufferedImage(large, newFile);
+					ImageUtil.SaveBufferedImage(thumb, thumbFile);
+				}
+				else{
+					String newFileDir = request.getServletContext().getRealPath("/")+"assets/img/properties/large/"+lsNum+"/";
+					String newFile = newFileDir+lsNum+"-"+sfx+".jpg";
+					ImageUtil.SaveBufferedImage(large, newFile);
+				}
+				sfx++;
+			}		
+		
+	}
 }

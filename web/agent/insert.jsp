@@ -105,7 +105,7 @@
 					<tr>
 						<td>
 								<input type="text" name="uplDesc" value="Upload more (jpeg) photos:"/>
-								<input type="file" name="file" accept=".jpg,.JPG,image/jpeg" />
+								<input type="file" name="file" accept=".jpg,.JPG,image/jpeg" multiple="multiple"/>
 							</form>
 						</td>
                         <td><input type="submit" value="Update" />
