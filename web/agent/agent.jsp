@@ -45,6 +45,9 @@
             </c:forEach>
             </table>
         </div>
+		<div class="dashboard">
+			<a href="AgentController?action=agent_details">Edit My Details</a>
+		</div>			
         <%@ include file="../assets/jsp/footer.jsp" %>
         </div>
     </body>

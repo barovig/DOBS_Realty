@@ -105,6 +105,12 @@ public class AgentController extends HttpServlet {
 				case "add":
 					address = DoAdd(request, agent);
 					break;
+				case "agent_details":
+					address = DoAgentDetails(request, agent);
+					break;
+				case "edit_agent":
+					address = DoEditAgent(request, agent);
+					break;
 				case "logout":
 					sess.invalidate();
 					address= "homepage.jsp";
@@ -514,6 +520,24 @@ public class AgentController extends HttpServlet {
 				}
 				sfx++;
 			}		
+		
+	}
+
+	private String DoAgentDetails(HttpServletRequest request, Agent agent) {
+		request.setAttribute("agent", agent);
+		return "agent/agent_details.jsp";
+		
+	}
+
+	private String DoEditAgent(HttpServletRequest request, Agent agent) {
+		// params validated by filter
+		agent.setName(request.getParameter("name"));
+		agent.setEmail(request.getParameter("email"));
+		agent.setPhone(request.getParameter("phone"));
+		agent.setFax(request.getParameter("fax"));
+		
+		AgentModel.updateAgent(agent);
+		return "AgentController?action=agent_home";
 		
 	}
 }

@@ -9,6 +9,7 @@ import database.config.DBConfig;
 import database.entities.Agent;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 /**
@@ -28,4 +29,23 @@ public class AgentModel {
         return agent;
         
     }    
+
+	public static void updateAgent(Agent agent) {
+		EntityManager em = DBConfig.getEmf().createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		try{
+			et.begin();
+			em.merge(agent);
+			et.commit();
+			// refresh from cache
+			em.getEntityManagerFactory().getCache().evictAll();
+		}
+		catch(Exception e){
+			et.rollback();
+		}
+		finally{
+			em.close();
+		}
+	}
 }
