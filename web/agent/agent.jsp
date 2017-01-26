@@ -40,7 +40,7 @@
                     <td>${prop.bathrooms}</td>
                     <td>${prop.squarefeet}</td>
 					<td><a href="${context}/AgentController?action=manage&id=${prop.id}">Manage</a></td>
-					<td><a href="${context}/AgentController?action=delete&id=${prop.id}">Delete</a></td>
+					<td><a href="${context}/AgentController?action=delete&id=${prop.id}" onclick="return confirmDelete();">Delete</a></td>
                 </tr>
             </c:forEach>
             </table>

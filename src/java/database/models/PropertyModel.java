@@ -192,5 +192,44 @@ public class PropertyModel {
 			em.close();
 		}
 
-	}	
+	}
+	
+	public static void archiveProperty(Property p){
+		ArchiveProperty a = new ArchiveProperty();
+		
+		a.setAgentId(p.getAgentId().getAgentId());
+		a.setBathrooms(p.getBathrooms());
+		a.setBedrooms(p.getBedrooms());
+		a.setBerRating(p.getBerRating());
+		a.setCity(p.getCity());
+		a.setDateAdded(p.getDateAdded());
+		a.setDescription(p.getDescription());
+		a.setGarageId(p.getGarageId().getGarageId());
+		a.setGaragesize(p.getGaragesize());
+		a.setListingNum(p.getListingNum());
+		a.setLotsize(p.getLotsize());
+		a.setPhoto(p.getPhoto());
+		a.setPrice(p.getPrice());
+		a.setSquarefeet(p.getSquarefeet());
+		a.setStreet(p.getStreet());
+		a.setStyleId(p.getStyleId().getStyleId());
+		a.setTypeId(p.getTypeId().getTypeId());
+		
+		EntityManager em = DBConfig.getEmf().createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		try{
+			et.begin();
+			em.persist(a);
+			et.commit();
+			// refresh from cache
+			em.getEntityManagerFactory().getCache().evictAll();
+		}
+		catch(Exception e){
+			et.rollback();
+		}
+		finally{
+			em.close();
+		}
+	}
 }

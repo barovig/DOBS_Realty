@@ -26,3 +26,7 @@ function removeFavourite(id){
     favSpan.innerHTML = favCount - 1;
     
 }
+
+function confirmDelete(){
+	return confirm("Are you sure you want to delete this property?");
+}

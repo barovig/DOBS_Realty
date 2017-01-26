@@ -222,7 +222,25 @@ public class AgentController extends HttpServlet {
     }
 
 	private String DoDelete(HttpServletRequest request, Agent agent) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		String id = request.getParameter("id");
+		Property prop = null;
+		boolean found = false;
+		
+		for(Property p : agent.getPropertyCollection()){
+			if(p.getId().toString().equals(id)){
+				prop = p;
+				found = true; break;
+			}
+		}
+		
+		if(!found){
+			request.setAttribute("msg", "You cannot delete this property");
+			return "error.jsp";			
+		}
+		
+		PropertyModel.archiveProperty(prop);
+		PropertyModel.deleteProperty(prop);
+		return "AgentController?action=agent_home";
 	}
 
 	private String DoManage(HttpServletRequest request, Agent agent) {	
@@ -341,8 +359,6 @@ public class AgentController extends HttpServlet {
 		// img configuration params
 		int largeWidth = 480;
 		int largeHeight = 320;
-		int thumbWidth = 75;
-		int thumbHeight = 50;
 		
 		BufferedImage rawImg = ImageIO.read(fileContent);
 		BufferedImage large = ImageUtil.ResizeJpeg(largeWidth, largeHeight, rawImg);
