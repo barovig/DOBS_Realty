@@ -226,7 +226,7 @@ public class AgentController extends HttpServlet {
         String imgFolder = photo.substring(0, photo.lastIndexOf("."));
         // get real path for root context
         String rPath = request.getServletContext().getRealPath("/");
-        File folder = new File(rPath+"assets/img/properties/large/"+imgFolder+"/");
+        File folder = new File(rPath+"/assets/img/properties/large/"+imgFolder+"/");
         // get filenames
         File[] imgFiles = folder.listFiles();
                 
@@ -281,7 +281,7 @@ public class AgentController extends HttpServlet {
 		
 		// get image data
         String rPath = request.getServletContext().getRealPath("/");
-        File folder = new File(rPath+"assets/img/properties/large/"+prop.getListingNum()+"/");
+        File folder = new File(rPath+"/assets/img/properties/large/"+prop.getListingNum()+"/");
         // get filenames
         File[] imgFiles = folder.listFiles();
 		
@@ -350,14 +350,14 @@ public class AgentController extends HttpServlet {
 
 		PropertyModel.updateProperty(property);
 		
-		return "AgentController?action=manage&id="+property.getId();
+		return "/AgentController?action=manage&id="+property.getId();
 	}
 
 	private void handleImageArchiving(String[] delImgs, String imgDir, String rPath)
 			throws IOException{
 		// get image data
-        File folder = new File(rPath+"assets/img/properties/large/"+imgDir+"/");
-		Path archive = Paths.get(rPath+"archive/"+imgDir);
+        File folder = new File(rPath+"/assets/img/properties/large/"+imgDir+"/");
+		Path archive = Paths.get(rPath+"/archive/"+imgDir);
 		
 		// check and create directories if they don't exist
 		if(!Files.exists(archive))
@@ -365,7 +365,7 @@ public class AgentController extends HttpServlet {
 		
 		// move files to archive
 		for(String file : delImgs){
-			Path src = Paths.get(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
+			Path src = Paths.get(rPath+"/assets/img/properties/large/"+imgDir+"/"+file);
 			Path dest = Paths.get(archive+"/"+file);
 //			File img = new File(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
 			Files.copy(src, dest, REPLACE_EXISTING);
@@ -376,8 +376,8 @@ public class AgentController extends HttpServlet {
 	private void handleImageArchiving(String imgDir, String rPath)
 			throws IOException{
 		// get image data
-        File folder = new File(rPath+"assets/img/properties/large/"+imgDir+"/");
-		Path archive = Paths.get(rPath+"archive/"+imgDir);
+        File folder = new File(rPath+"/assets/img/properties/large/"+imgDir+"/");
+		Path archive = Paths.get(rPath+"/archive/"+imgDir);
 		
 		// check and create directories if they don't exist
 		if(!Files.exists(archive))
@@ -385,7 +385,7 @@ public class AgentController extends HttpServlet {
 		
 		// move files to archive
 
-		Path src = Paths.get(rPath+"assets/img/properties/large/"+imgDir+"/");
+		Path src = Paths.get(rPath+"/assets/img/properties/large/"+imgDir+"/");
 		Path dest = Paths.get(archive+"/");
 //			File img = new File(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
 		Files.move(src, dest, REPLACE_EXISTING);
@@ -402,7 +402,7 @@ public class AgentController extends HttpServlet {
 		BufferedImage rawImg = ImageIO.read(fileContent);
 		BufferedImage large = ImageUtil.ResizeJpeg(largeWidth, largeHeight, rawImg);
 		
-		String newFileDir = realPath+"assets/img/properties/large/"+lsNum+"/";
+		String newFileDir = realPath+"/assets/img/properties/large/"+lsNum+"/";
 		String newFile = GetNewFileName(newFileDir, lsNum);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -510,7 +510,7 @@ public class AgentController extends HttpServlet {
 			int thumbHeight = 50;
 			
 			String lsNum = request.getParameter("listingNum");
-			String thumbDir = request.getServletContext().getRealPath("/")+"assets/img/properties/thumbs/";
+			String thumbDir = request.getServletContext().getRealPath("/")+"/assets/img/properties/thumbs/";
 			int sfx = 0;
 			for (Part filePart : parts) {
 				
@@ -521,14 +521,14 @@ public class AgentController extends HttpServlet {
 				
 				if(sfx == 0){
 					BufferedImage thumb = ImageUtil.ResizeJpeg(thumbWidth, thumbHeight, rawImg);
-					String newFileDir = request.getServletContext().getRealPath("/")+"assets/img/properties/large/"+lsNum+"/";
+					String newFileDir = request.getServletContext().getRealPath("/")+"/assets/img/properties/large/"+lsNum+"/";
 					String newFile = newFileDir+lsNum+".jpg";
 					String thumbFile = thumbDir+lsNum+".jpg";
 					ImageUtil.SaveBufferedImage(large, newFile);
 					ImageUtil.SaveBufferedImage(thumb, thumbFile);
 				}
 				else{
-					String newFileDir = request.getServletContext().getRealPath("/")+"assets/img/properties/large/"+lsNum+"/";
+					String newFileDir = request.getServletContext().getRealPath("/")+"/assets/img/properties/large/"+lsNum+"/";
 					String newFile = newFileDir+lsNum+"-"+sfx+".jpg";
 					ImageUtil.SaveBufferedImage(large, newFile);
 				}

@@ -188,3 +188,7 @@ tfoot {
 .dataTables_filter{
 	display:none;
 }
+
+#propertyTable{
+    width: 600px !important;
+}
