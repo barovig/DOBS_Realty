@@ -49,8 +49,16 @@ public class PropertyController extends HttpServlet {
         String address = "/error.jsp";
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
-        
+		
+		String error = request.getParameter("error");
+		if(error != null){
+			request.setAttribute("msg", error);
+			address = "/error.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+			dispatcher.forward(request, response);
+			return;
+		}      
+		
         try{
             // get current favourites list
             ArrayList<Property> favs = GetAllFavourites(request);

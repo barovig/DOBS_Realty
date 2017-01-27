@@ -1,3 +1,3 @@
 <div class="footer">
-    <p>This is footer</p>
+    <p>LIT Realty. Work in progress by K00191419</p>
 </div>

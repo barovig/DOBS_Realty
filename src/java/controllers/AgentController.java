@@ -64,7 +64,16 @@ public class AgentController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String address = "agent/agent.jsp";
-
+		
+		String error = (String)request.getAttribute("error");
+		if(error != null){
+			request.setAttribute("msg", error);
+			address = "/error.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+			dispatcher.forward(request, response);
+			return;
+		}  
+		
 		try{
 			// get session and j_username
 			HttpSession sess = request.getSession();
@@ -80,6 +89,7 @@ public class AgentController extends HttpServlet {
             // if it is null - homepage requested
             if(action == null)
                 action = "agent_home";
+			
             
             // perform action (which will set relevant paremeters) and return
             // the address
@@ -113,7 +123,7 @@ public class AgentController extends HttpServlet {
 					break;
 				case "logout":
 					sess.invalidate();
-					address= "homepage.jsp";
+					address= "ProperyController";
 					break;
                 default:
                     address = DoDisplayAgentHome(request, agent);
@@ -160,7 +170,7 @@ public class AgentController extends HttpServlet {
 
 	private void processUpload(HttpServletRequest request, String listingNum) throws ServletException, IOException {
 		// get description param (multipart form)
-		String description = request.getParameter("description");
+		String description = request.getParameter("file_desc");
 		if(description != null){
 			// get file Part list from getParts() collection
 			Collection<Part> partCollection = request.getParts();
@@ -177,6 +187,7 @@ public class AgentController extends HttpServlet {
 				ProcessFileUpload(fileContent, 
 						request.getServletContext().getRealPath("/"),
 						listingNum);
+				fileContent.close();
 			}		
 		}
 	}
@@ -356,7 +367,8 @@ public class AgentController extends HttpServlet {
 			Path src = Paths.get(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
 			Path dest = Paths.get(archive+"/"+file);
 //			File img = new File(rPath+"assets/img/properties/large/"+imgDir+"/"+file);
-			Files.move(src, dest, REPLACE_EXISTING);
+			Files.copy(src, dest, REPLACE_EXISTING);
+			Files.delete(src);
 		}
 		
 	}
@@ -398,7 +410,7 @@ public class AgentController extends HttpServlet {
 
 		File upload = new File(newFile);
 		Files.copy(is, upload.toPath());	
-		
+		is.close();
 	}
 
 	private String GetNewFileName(String newFileDir, String lsNum) {

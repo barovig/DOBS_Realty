@@ -116,7 +116,7 @@
 					</tr>
 					<tr>
 						<td>
-								<input type="text" name="description" value="Upload more (jpeg) photos:"/>
+								<input type="text" name="file_desc" value="Upload more (jpeg) photos:"/>
 								<input type="file" name="file" accept=".jpg,.JPG,image/jpeg" multiple="multiple"/>
 							</form>
 						</td>

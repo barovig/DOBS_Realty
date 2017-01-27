@@ -1,6 +1,16 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="header">
     <div class="header-left">
-        <p><a href="${context}/PropertyController" >This is header</a></p>
+		<c:set var="user" value="${sessionScope.user}" />
+		<c:choose>
+			<c:when test="${user == null}">
+				<c:set var="homeLink" value="${context}/PropertyController"></c:set>
+			</c:when>
+			<c:otherwise>
+				<c:set var="homeLink" value="${context}/AgentController"></c:set>
+			</c:otherwise>
+		</c:choose>
+        <p><a href="${homeLink}" ><img src="${context}/assets/img/site/logo.gif"/>LIT Realty</a></p>
     </div>
     <div class="header-right">
 		<div class="user_bar">

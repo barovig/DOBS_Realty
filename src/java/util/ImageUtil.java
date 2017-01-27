@@ -35,6 +35,8 @@ public class ImageUtil {
 		InputStream is = new ByteArrayInputStream(baos.toByteArray());
 		File upload = new File(path);
 		upload.getParentFile().mkdirs();
-		Files.copy(is, upload.toPath());		
+		Files.copy(is, upload.toPath());
+		is.close();
+		baos.close();
 	}
 }

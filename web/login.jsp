@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td>Password:</td>
-                        <td><input type="text" name="j_password" />
+                        <td><input type="password" name="j_password" />
                     </tr>
                     <tr>
                         <td></td>

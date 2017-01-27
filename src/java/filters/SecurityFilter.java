@@ -20,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -57,7 +58,13 @@ public class SecurityFilter implements Filter{
 		attribs.put("garageId", Types.INTEGER);
 		attribs.put("garageSize", Types.SHORT);
 		attribs.put("lotSize", Types.STRING);
-		attribs.put("berRating", Types.STRING);		
+		attribs.put("berRating", Types.STRING);
+		attribs.put("phone", Types.STRING);
+		attribs.put("fax", Types.STRING);		
+		attribs.put("email", Types.STRING);		
+		attribs.put("name", Types.STRING);		
+
+
 	}
 	
 	private static final HashMap<String, String> rgxMap;
@@ -69,6 +76,11 @@ public class SecurityFilter implements Filter{
 		rgxMap.put("city", "[^-a-zA-Z0-9()., ]");
 		rgxMap.put("lotSize", "[^0-9x]");
 		rgxMap.put("berRating", "[^0-9A-G]");
+		rgxMap.put("phone", "[^-0-9()+]");
+		rgxMap.put("fax", "[^-0-9]()+");
+		rgxMap.put("email", "[^@a-zA-Z0-9._]");
+		rgxMap.put("name", "[^-a-zA-Z' ]");
+		
 	}
 	
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -83,8 +95,7 @@ public class SecurityFilter implements Filter{
 		boolean validated = ValidateParameters(request);
 
 		if(!validated){
-			httpResp.sendError(418, msg);
-			return;
+			request.setAttribute("error", "Validation error");
 		}
 //		filterConfig.getServletContext()
 //				.log("Servlet path: "+httpReq.getServletPath());
