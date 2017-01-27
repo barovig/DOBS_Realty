@@ -39,11 +39,23 @@
                     <th></th>
                     <th>Price</th>
                     <th>City</th>
+					<th>Bathrooms</th>
                     <th>Bedrooms</th>
-                    <th>Bathrooms</th>
                     <th>Square feet</th>
+					<th>Property Style</th>
                 </tr>
                 </thead>
+				<tfoot>
+					<tr>
+						<th class="th-remove"></th>
+						<th class="th-remove"></th>
+						<th class="th-remove"></th>
+						<th class="th-remove"></th>
+						<th>Bedrooms</th>
+						<th>Square feet</th>
+						<th>Property Style</th>					
+					</tr>
+				</tfoot>
             <c:forEach var="prop" items="${list}" >
                 <tr>
                     <td><a href="${context}/PropertyController?action=details&id=${prop.id}"><img src="${context}/assets/img/properties/thumbs/${prop.photo}"/></a></td>
@@ -51,9 +63,10 @@
                     <fmt:formatNumber var="price" type="currency" value="${prop.price}" maxFractionDigits="0" />
                     <td>${price}</td>
                     <td>${prop.city}</td>
+                    <td>${prop.bathrooms}</td>					
                     <td>${prop.bedrooms}</td>
-                    <td>${prop.bathrooms}</td>
                     <td>${prop.squarefeet}</td>
+					<td>${prop.styleId.getPStyle()}</td>
                 </tr>
             </c:forEach>
             </table>

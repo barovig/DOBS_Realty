@@ -123,7 +123,7 @@ public class AgentController extends HttpServlet {
 					break;
 				case "logout":
 					sess.invalidate();
-					address= "ProperyController";
+					address= "/PropertyController";
 					break;
                 default:
                     address = DoDisplayAgentHome(request, agent);

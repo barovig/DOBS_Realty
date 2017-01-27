@@ -176,3 +176,15 @@ ul{
 .footer{
 	padding-top: 2em;
 }
+
+.th-remove input{
+	display: none;
+}
+
+tfoot {
+    display: table-header-group;
+}
+
+.dataTables_filter{
+	display:none;
+}

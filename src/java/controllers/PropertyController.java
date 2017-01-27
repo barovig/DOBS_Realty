@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,16 +130,7 @@ public class PropertyController extends HttpServlet {
         
         List<Property> propList = PropertyModel.getAllProperties();
 
-        // sort by date
-        Collections.sort(propList, new Comparator<Property>(){
-           @Override
-           public int compare(Property p1, Property p2){
-               // swap arguments to reverse order (instead of calling reverse)
-             return p2.getDateAdded().compareTo(p1.getDateAdded());
-           } 
-        });
-        // get first 7 items
-        List<Property> lastAdditions = propList.subList(0, 7);
+        List<Property> lastAdditions = getLastAdditions(propList);
         
         // get cities dynamically
         List<String> citiesList = PropertyModel.getAllCities();
@@ -154,7 +146,9 @@ public class PropertyController extends HttpServlet {
         }    
     }
     private String DoSearch(HttpServletRequest request) {
-        
+		
+
+		
         // get and validate criteria
         String city = request.getParameter("city");
         city = ("any".equals(city)) ? "%" : city;        // replace 'any' with wildcard
@@ -169,13 +163,16 @@ public class PropertyController extends HttpServlet {
         List<Property> propList = PropertyModel.getSearchProperties(city, min, max);
         // don't forget list of cities
         List<String> citiesList = PropertyModel.getAllCities();
-        
+		// recents
+		List<Property> lastAdditions = getLastAdditions(propList);
+
         if( citiesList.isEmpty()){
             return "/error.jsp";
         }
         else if(propList.isEmpty()){
             request.setAttribute("msg", "No items found...");
             request.setAttribute("cities", citiesList);
+            request.setAttribute("lastAdditions", lastAdditions);			
             request.setAttribute("selectCity", city);
             return "/homepage.jsp";            
 
@@ -184,6 +181,7 @@ public class PropertyController extends HttpServlet {
             request.setAttribute("list", propList);
             request.setAttribute("cities", citiesList);
             request.setAttribute("selectCity", city);
+            request.setAttribute("lastAdditions", lastAdditions);						
             return "/homepage.jsp";            
         }
 
@@ -262,4 +260,18 @@ public class PropertyController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+	private List<Property> getLastAdditions(List<Property> propList) {
+		Date today = new Date();
+		Date recent = new Date();
+		recent.setTime(today.getTime() - (long)7*1000*60*60*24);
+		
+		List<Property> recentList = new ArrayList<>();
+		for(Property p : propList){
+			if(p.getDateAdded().after(recent))
+				recentList.add(p);
+		}
+		
+		return recentList;
+	}
 }
