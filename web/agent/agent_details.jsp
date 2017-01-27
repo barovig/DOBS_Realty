@@ -19,19 +19,19 @@
                 <table>
                     <tr>
                         <td>Name:</td>
-                        <td><input type="text" name="name" value="${agent.name}" /></td>
+                        <td><input type="text" name="name" value="${agent.name}" required/></td>
                     </tr>
                     <tr>
                         <td>Phone:</td>
-						<td><input type="text" name="phone" value="${agent.phone}" /></td>
+						<td><input type="text" name="phone" value="${agent.phone}" required/></td>
                     </tr>
                     <tr>
                         <td>Fax:</td>
-                        <td><input type="text" name="fax" value="${agent.fax}" />
+                        <td><input type="text" name="fax" value="${agent.fax}" required/>
                     </tr>
                     <tr>
                         <td>Email:</td>
-                        <td><input type="text" name="email" value="${agent.email}" />
+                        <td><input type="text" name="email" value="${agent.email}" required/>
                     </tr>
 					<tr>
 						<td></td>

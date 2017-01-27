@@ -74,6 +74,12 @@
                     
                 </tr>
               </table>
+				<div class="map">
+						<iframe style="width: 100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+								src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=${prop.street},+${prop.city},+Ireland&amp;
+								aq=0&amp;oq=pulch&amp;ie=UTF8&amp;hq=&amp;t=m&amp;z=14&amp;output=embed">
+						</iframe>
+				</div>
         </div>
         <div class="dashboard">
             <%@include file="assets/jsp/agent.jsp" %>

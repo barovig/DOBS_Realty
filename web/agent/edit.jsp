@@ -28,15 +28,15 @@
                     </tr>
                     <tr>
                         <td>Street:</td>
-                        <td><input type="text" name="street" value="${prop.street}" />
+                        <td><input type="text" name="street" value="${prop.street}" required/>
                     </tr>
                     <tr>
                         <td>City:</td>
-                        <td><input type="text" name="city" value="${prop.city}" />
+                        <td><input type="text" name="city" value="${prop.city}" required/>
                     </tr>
                     <tr>
                         <td>Price:</td>
-                        <td><input type="text" name="price" value="${prop.price}" />
+                        <td><input type="text" name="price" value="${prop.price}" required/>
                     </tr>
                     <tr>
                         <td>Type:</td>
@@ -60,11 +60,11 @@
                     </tr>
                     <tr>
                         <td>Number of bedrooms:</td>
-                        <td><input type="number" name="bedrooms" value="${prop.bedrooms}" />
+                        <td><input type="number" name="bedrooms" value="${prop.bedrooms}" required/>
                     </tr>
                     <tr>
                         <td>Number of bathrooms</td>
-                        <td><input type="text" name="bathrooms" value="${prop.bathrooms}" />
+                        <td><input type="text" name="bathrooms" value="${prop.bathrooms}" required/>
                     </tr>
                     <tr>
                         <td>Garage Type:</td>
@@ -78,19 +78,19 @@
                     </tr>
                     <tr>
                         <td>Garage Size:</td>
-                        <td><input type="text" name="garageSize" value="${prop.garagesize}" />
+                        <td><input type="text" name="garageSize" value="${prop.garagesize}" required/>
                     </tr>
                     <tr>
                         <td>Squarefeet:</td>
-                        <td><input type="text" name="squarefeet" value="${prop.squarefeet}" />
+                        <td><input type="text" name="squarefeet" value="${prop.squarefeet}" required/>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td><textarea rows="10" cols="100" name="description">${prop.description}</textarea>
+                        <td><textarea rows="10" cols="100" name="description" required>${prop.description}</textarea>
                     </tr>						
 					<tr>
                         <td>Lot Size:</td>
-                        <td><input type="text" name="lotSize" value="${prop.lotsize}" />
+                        <td><input type="text" name="lotSize" value="${prop.lotsize}" required/>
                     </tr>
                     <tr>
                         <td>BER Rating</td>

@@ -19,7 +19,7 @@
                 <table>
                     <tr>
                         <td>Listing Number:</td>
-                        <td><input type="text" name="listingNum" /></td>
+                        <td><input type="text" name="listingNum" required/></td>
                     </tr>
                     <tr>
                         <td>Date Added:</td>
@@ -28,15 +28,15 @@
                     </tr>
                     <tr>
                         <td>Street:</td>
-                        <td><input type="text" name="street" />
+                        <td><input type="text" name="street" required/>
                     </tr>
                     <tr>
                         <td>City:</td>
-                        <td><input type="text" name="city" />
+                        <td><input type="text" name="city" required/>
                     </tr>
                     <tr>
                         <td>Price:</td>
-                        <td><input type="text" name="price"  />
+                        <td><input type="text" name="price"  required/>
                     </tr>
                     <tr>
                         <td>Type:</td>
@@ -60,11 +60,11 @@
                     </tr>
                     <tr>
                         <td>Number of bedrooms:</td>
-                        <td><input type="number" name="bedrooms"  />
+                        <td><input type="number" name="bedrooms"  required/>
                     </tr>
                     <tr>
                         <td>Number of bathrooms</td>
-                        <td><input type="text" name="bathrooms"  />
+                        <td><input type="text" name="bathrooms"  required/>
                     </tr>
                     <tr>
                         <td>Garage Type:</td>
@@ -78,19 +78,19 @@
                     </tr>
                     <tr>
                         <td>Garage Size:</td>
-                        <td><input type="text" name="garageSize"  />
+                        <td><input type="text" name="garageSize"  required/>
                     </tr>
                     <tr>
-                        <td>Squarefeet:</td>
-                        <td><input type="text" name="squarefeet"  />
+                        <td>Square Feet:</td>
+                        <td><input type="text" name="squarefeet"  required/>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td><textarea rows="10" cols="100" name="description"></textarea>
+                        <td><textarea rows="10" cols="100" name="description" required></textarea>
                     </tr>						
 					<tr>
                         <td>Lot Size:</td>
-                        <td><input type="text" name="lotSize"  />
+                        <td><input type="text" name="lotSize"  required/>
                     </tr>
                     <tr>
                         <td>BER Rating</td>
@@ -105,7 +105,7 @@
 					<tr>
 						<td>
 								<input type="text" name="uplDesc" value="Upload more (jpeg) photos:"/>
-								<input type="file" name="file" accept=".jpg,.JPG,image/jpeg" multiple="multiple"/>
+								<input type="file" name="file" accept=".jpg,.JPG,image/jpeg" multiple="multiple" required/>
 							</form>
 						</td>
                         <td><input type="submit" value="Update" />
