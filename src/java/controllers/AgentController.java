@@ -176,7 +176,8 @@ public class AgentController extends HttpServlet {
 			Collection<Part> partCollection = request.getParts();
 			List<Part> parts = new ArrayList<>();
 			for(Part p : partCollection){
-				if(p.getName().equals("file")){
+				if(p.getName().equals("file") && 
+						!p.getSubmittedFileName().isEmpty()){
 					parts.add(p);
 				}
 			}
@@ -429,9 +430,10 @@ public class AgentController extends HttpServlet {
 						fn.indexOf("-")+1, 
 						fn.indexOf(".")));
 				if(sfx > suffix)
-					suffix = sfx+1;
+					suffix = sfx;
 			}
 		}
+		suffix++;
 		newFileDir += lsNum+"-"+suffix+".jpg";
 		
 		return newFileDir;

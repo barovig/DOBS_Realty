@@ -72,12 +72,12 @@ public class SecurityFilter implements Filter{
 		// regex matching invalid characters for parameters
 		rgxMap = new HashMap<>();
 		rgxMap.put("action", "[^a-z_]");
-		rgxMap.put("street", "[^-a-zA-Z0-9()., ]");
-		rgxMap.put("city", "[^-a-zA-Z0-9()., ]");
+		rgxMap.put("street", "[^-a-zA-Z0-9., ]");
+		rgxMap.put("city", "[^-a-zA-Z0-9., ]");
 		rgxMap.put("lotSize", "[^0-9x]");
 		rgxMap.put("berRating", "[^0-9A-G]");
-		rgxMap.put("phone", "[^-0-9()+]");
-		rgxMap.put("fax", "[^-0-9]()+");
+		rgxMap.put("phone", "[^-0-9()+ ]");
+		rgxMap.put("fax", "[^-0-9()+ ]");
 		rgxMap.put("email", "[^@a-zA-Z0-9._]");
 		rgxMap.put("name", "[^-a-zA-Z' ]");
 		
@@ -95,7 +95,7 @@ public class SecurityFilter implements Filter{
 		boolean validated = ValidateParameters(request);
 
 		if(!validated){
-			request.setAttribute("error", "Validation error");
+			request.setAttribute("error", msg);
 		}
 //		filterConfig.getServletContext()
 //				.log("Servlet path: "+httpReq.getServletPath());
@@ -142,6 +142,7 @@ public class SecurityFilter implements Filter{
 				}
 			}
 			if(!valid){
+				msg = "Error validating parameter:"+p;
 				filterConfig.getServletContext()
 					.log("Error validating parameter ("+p+")");
 				break;
